@@ -1,0 +1,11 @@
+.fundoNav{
+    background-color: #fef6e9;
+}
+
+.titulo {
+    color: black;
+
+    span{
+        color: red;
+    }
+}
