@@ -2,8 +2,8 @@
 <?php
     class BancoTcc_rodrigo {
         private $host = "127.0.0.1";
-        private $user = "user";
-        private $senha = "password";
+        private $user = "root";
+        private $senha = "";
         private $banco = "Tcc_rodrigo";
         private $porta = "3306";
         private $con=null;

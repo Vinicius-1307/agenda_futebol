@@ -1,11 +1,38 @@
 .fundoNav{
     background-color: #fef6e9;
+    height: 250px;
 }
 
 .titulo {
     color: black;
 
     span{
-        color: red;
+        color: #254082;
     }
+}
+
+.top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar{
+    background-color: #254082;
+}
+
+.footer{
+    background-color: #254082;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.formulario{
+    width:40%;
+}
+
+.tituloHome{
+    text-align: center;
+    color: #254082;
 }

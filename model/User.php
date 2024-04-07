@@ -1,5 +1,6 @@
 
 <?php
+    require_once("Database.php");
     class User {
         private $id_user;
 		private $name;
@@ -31,7 +32,7 @@
         }
 		
         public function readUser($id_user) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM User WHERE id_user = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM User WHERE id_user = ? AND is_admin = 1");
             $stmt->bind_param("i", $id_user);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -44,6 +45,21 @@
 				
             }
             return $this;     
+        }
+        public function login($email, $senha){
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM User WHERE email = ? AND password = ?  AND is_admin = 1");
+            $stmt->bind_param("ss", $email, $senha);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            while ($linha = $resultado->fetch_object()) { 
+                $this->setId_user($linha->id_user);
+				$this->setName($linha->name);
+				$this->setEmail($linha->email);
+				$this->setPassword($linha->password);
+				$this->setIs_admin($linha->is_admin);
+			
+            }
+            return $this;  
         }
 		
         public function readAll() {

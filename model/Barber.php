@@ -1,5 +1,6 @@
 
 <?php
+    require_once("Database.php");
     class Barber {
         private $id_barber;
 		private $name;

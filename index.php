@@ -1,36 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./public/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <title>Cardoso Barber</title>
-    
 </head>
 <body>
-    <div class="fundoNav p-5 text-center">
+    <div class="fundoNav p-4 text-center">
         <div class="top">
-            <img src="images/image.png" alt="">
-            <h1 class="titulo">CARDOSO <span>BARBER</span></h1>
+            <img src="./public/images/image.png" height="200px" width="400px" alt="">
         </div>
       </div>
       
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="container-fluid justify-content-center">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Active</a>
+              <a class="nav-link active" href="#">Agendar Horário</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Cadastrar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
+              <a class="nav-link" href="./view/login.html">Login</a>
             </li>
           </ul>
         </div>
@@ -77,7 +75,7 @@
         </div>
       </div>
       
-      <div class="mt-5 p-4 bg-dark text-white text-center">
+      <div class="footer mt-5 p-4 text-white text-center">
         <p>Footer</p>
       </div>
 </body>
