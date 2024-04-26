@@ -14,7 +14,7 @@ $user->setPassword($senha);
 $user->setIs_admin(0);
 
 if($user->createUser()){
-    header('Location: ../view/home.html');
+    header('Location: ../view/home.php');
 }else{
     header('Location: ../view/cadastroBarbeiro.html');
 }

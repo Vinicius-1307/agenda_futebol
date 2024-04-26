@@ -1,8 +1,9 @@
 
 <?php
+    require_once("Database.php");
     class Schedules {
         private $id_schedule;
-		private $inital_hour;
+		private $initial_hour;
 		private $final_hour;
 		private $banco;
 		
@@ -11,8 +12,8 @@
         }
 		
         public function createSchedules() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Schedules (id_schedule, inital_hour, final_hour) VALUES (?, ?, ?)");
-            $stmt->bind_param("i", $this->id_schedule, $this->inital_hour, $this->final_hour);
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Schedules (id_schedule, initial_hour, final_hour) VALUES (?, ?, ?)");
+            $stmt->bind_param("iss", $this->id_schedule, $this->initial_hour, $this->final_hour);
             return $stmt->execute();
         }
 		
@@ -23,8 +24,8 @@
         }
 		
         public function updateSchedules() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Schedules SET inital_hour=?,final_hour=? WHERE id_schedule = ?");
-            $stmt->bind_param("i", $this->inital_hour, $this->final_hour, $this->id_schedule );
+            $stmt = $this->banco->getConexao()->prepare("UPDATE Schedules SET initial_hour=?,final_hour=? WHERE id_schedule = ?");
+            $stmt->bind_param("i", $this->initial_hour, $this->final_hour, $this->id_schedule );
             $stmt->execute();
         }
 		
@@ -35,7 +36,7 @@
             $resultado = $stmt->get_result();
             while ($linha = $resultado->fetch_object()) { 
                 $this->setId_schedule($linha->id_schedule);
-				$this->setInital_hour($linha->inital_hour);
+				$this->setinitial_hour($linha->initial_hour);
 				$this->setFinal_hour($linha->final_hour);
 				
             }
@@ -51,7 +52,7 @@
             while ($$linha = mysqli_fetch_object($result)) {
                 $vetorSchedules[$i] = new Schedules();
                 $vetorSchedules[$i]->setId_schedule($linha->id_schedule);
-				$vetorSchedules[$i]->setInital_hour($linha->inital_hour);
+				$vetorSchedules[$i]->setinitial_hour($linha->initial_hour);
 				$vetorSchedules[$i]->setFinal_hour($linha->final_hour);
 				
                 $i++;
@@ -67,12 +68,12 @@
             $this->id_schedule = $id_schedule; 
         }
 		
-        public function getInital_hour() { 
-            return $this->inital_hour; 
+        public function getinitial_hour() { 
+            return $this->initial_hour; 
         }
 		
-        public function setInital_hour($inital_hour) { 
-            $this->inital_hour = $inital_hour; 
+        public function setinitial_hour($initial_hour) { 
+            $this->initial_hour = $initial_hour; 
         }
 		
         public function getFinal_hour() { 

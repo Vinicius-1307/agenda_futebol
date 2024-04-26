@@ -24,16 +24,7 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Agendar Horário</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Cadastrar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../view/login.html">Login</a>
+                    <a class="nav-link" href="../view/login.html">Sair</a>
                 </li>
             </ul>
         </div>
@@ -48,6 +39,10 @@
             <div class="mb-3">
                 <label for="preco" class="form-label">Preço que Cobra:</label>
                 <input type="text" class="form-control" id="preco" placeholder="Digite o preço que o barbeiro cobra" name="preco">
+            </div>
+            <div class="mb-3">
+                <label for="duracao">Duração do corte: (Minutos)</label><br>
+                <input type="number" class="form-control" id="minutos" name="minutos" min="0" max="60" placeholder="Minutos">
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
             <a href="../view/login.html"><button type="button" class="btn btn-outline-success">Login</button>

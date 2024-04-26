@@ -5,6 +5,7 @@
         private $id_barber;
 		private $name;
 		private $haircut_price;
+		private $time_haircut;
 		private $banco;
 		
         function __construct() {
@@ -12,8 +13,8 @@
         }
 		
         public function createBarber() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Barber (id_barber, name, haircut_price) VALUES (?, ?, ?)");
-            $stmt->bind_param("isd", $this->id_barber, $this->name, $this->haircut_price);
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Barber (id_barber, name, haircut_price, time_haircut) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isds", $this->id_barber, $this->name, $this->haircut_price, $this->time_haircut);
             return $stmt->execute();
         }
 		
@@ -38,6 +39,8 @@
                 $this->setId_barber($linha->id_barber);
 				$this->setName($linha->name);
 				$this->setHaircut_price($linha->haircut_price);
+                $this->setTime_haircut($linha->time_haircut);
+
 				
             }
             return $this;     
@@ -49,11 +52,12 @@
             $result = $stmt->get_result();
             $vetorBarber = array();
             $i=0;
-            while ($$linha = mysqli_fetch_object($result)) {
+            while ($linha = mysqli_fetch_object($result)) {
                 $vetorBarber[$i] = new Barber();
                 $vetorBarber[$i]->setId_barber($linha->id_barber);
 				$vetorBarber[$i]->setName($linha->name);
 				$vetorBarber[$i]->setHaircut_price($linha->haircut_price);
+				$vetorBarber[$i]->setTime_haircut($linha->time_haircut);
 				
                 $i++;
             }
@@ -82,6 +86,13 @@
 		
         public function setHaircut_price($haircut_price) { 
             $this->haircut_price = $haircut_price; 
+        }
+        public function getTime_haircut() { 
+            return $this->time_haircut; 
+        }
+
+        public function setTime_haircut($time_haircut) { 
+            $this->time_haircut = $time_haircut; 
         }
 		
     }

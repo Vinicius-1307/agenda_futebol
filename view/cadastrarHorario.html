@@ -24,28 +24,21 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/login.html">Login</a>
+                    <a class="nav-link" href="../view/login.html">Sair</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <h2 class="tituloHome mt-3">Cadastro</h2>
-
-
     <div class="container formulario">
-        <form action="../controller/cadastroUsuario.php" method="POST">
+        <form action="../controller/cadastroHorarios.php" method="POST">
             <div class="mb-3 mt-3">
-                <label for="nome" class="form-label">Nome:</label>
-                <input type="text" required class="form-control" id="nome" placeholder="Digite seu nome" name="nome">
+                <label for="horaInicial" class="form-label">Hora inicial:</label>
+                <input type="time" class="form-control" required id="horaInicial" placeholder="Digite a hora inicial" name="horaInicial">
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">E-mail:</label>
-                <input type="email" required class="form-control" id="email" placeholder="Digite seu email" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="pwd" class="form-label">Senha:</label>
-                <input type="password" required class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
+                <label for="horaFinal" class="form-label">Hora final:</label>
+                <input type="time" class="form-control" required id="horaFinal" placeholder="Digite a hora final" name="horaFinal">
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
             <a href="../view/login.html"><button type="button" class="btn btn-outline-success">Login</button>
