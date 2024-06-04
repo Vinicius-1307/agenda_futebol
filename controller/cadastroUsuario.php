@@ -1,19 +1,22 @@
 <?php 
 
-include_once '../model/user.php';
+include_once '../model/Clientes.php';
 
 $nome = $_POST['nome'];
 $email = $_POST['email'];
 $senha = $_POST['senha'];
+$telefone = $_POST['telefone'];
+$cpf = $_POST['cpf'];
 
-$user = new User();
+$cliente = new Clientes();
 
-$user->setName($nome);
-$user->setEmail($email);
-$user->setPassword($senha);
-$user->setIs_admin(0);
+$cliente->setNome($nome);
+$cliente->setEmail($email);
+$cliente->setSenha($senha);
+$cliente->setTelefone($telefone);
+$cliente->setCpf($cpf);
 
-if($user->createUser()){
+if($cliente->createClientes()){
     header('Location: ../view/home.php');
 }else{
     header('Location: ../view/cadastroBarbeiro.html');

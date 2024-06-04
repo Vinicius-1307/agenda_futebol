@@ -6,13 +6,13 @@ $nome = $_POST['nome'];
 $preço = $_POST['preco'];
 $tempo = $_POST['minutos'];
 
-$barber = new Barber();
+$profissional = new Profissionais();
 
-$barber->setName($nome);
-$barber->setHaircut_price($preço);
-$barber->setTime_haircut($tempo);
+$profissional->setNome($nome);
+// $profissional->setHaircut_price($preço);
+// $profissional->setTime_haircut($tempo);
 
-if($barber->createBarber()){
+if($profissional->createProfissionais()){
     header('Location: ../view/home.php');
 }
 

@@ -5,9 +5,9 @@ include_once('../model/user.php');
 $email = $_POST['email'];
 $senha = $_POST['senha'];
 
-$user = new User();
+$clientes = new Clientes();
 
-$admin = $user->login($email, $senha);
+$admin = $clientes->login($email, $senha);
 if($admin->getIs_admin() == 1){
     session_start();
     $_SESSION['admin'] = true;

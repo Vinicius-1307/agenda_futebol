@@ -35,12 +35,12 @@
     <div class="container">
         <div class="row">
             <?php
-            include_once('../model/Barber.php');
-            $barber = new Barber();
+            include_once('../model/Profissionais.php');
+            $barber = new Profissionais();
             $barbeiros = $barber->readAll();
             $count = 0;
             foreach ($barbeiros as $barbeiro) :
-                $name = $barbeiro->getName();
+                $name = $barbeiro->getNome();
                 if ($count % 3 == 0) {
                     if ($count != 0) {
                         echo '</div><div class="row">';
@@ -51,25 +51,43 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title text-center"><?php echo $name; ?></h3>
-                            <p class="card-text text-center font-size-sm">Preço: R$<?php echo $barbeiro->getHaircut_price(); ?></p>
-                            <p class="card-text text-center font-size-sm">Tempo de corte: <?php echo $barbeiro->getTime_haircut() ? $barbeiro->getTime_haircut() . " Min" : ""; ?></p>
-                            <a href="#" class="btn btn-primary d-grid" data-bs-toggle="modal" data-bs-target="#<?php echo $barbeiro->getId_barber(); ?>">Agendar</a>
-                            <div class="modal fade" id="<?php echo $barbeiro->getId_barber(); ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <p class="card-text text-center font-size-sm">Telefone: <?php echo $barbeiro->getTelefone(); ?></p>
+                            <p class="card-text text-center font-size-sm">Ano de cadastro: <?php echo $barbeiro->getAno_cadastro(); ?></p>
+                            <a href="#" class="btn btn-primary d-grid" data-bs-toggle="modal" data-bs-target="#<?php echo $barbeiro->getId_prof(); ?>">Agendar</a>
+                            <div class="modal fade" id="<?php echo $barbeiro->getId_prof(); ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Agende com <?php echo $barbeiro->getName(); ?></h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Agende com <?php echo $barbeiro->getNome(); ?></h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <label for="diaCorte">Agende o dia:</label>
-                                            <input class="form-control mb-3" id="diaCorte" placeholder="Dia do corte" type="date">
-                                            <label for="horarioCorte">Agende seu horário:</label>
-                                            <input class="form-control mb-3" id="horarioCorte" placeholder="Horário do corte" type="time">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Agendar</button>
-                                        </div>
+                                        <form action="../controller/agendamento.php">
+                                            <div class="modal-body">
+                                                <label for="diaCorte">Serviço:</label>
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected>Selecione o Serviço</option>
+                                                    <?php
+                                                        include('../model/Servicos.php');
+                                                        include('../model/Servico_profissional.php');
+                                                        
+                                                        $s = new Servicos();
+                                                        $servicos = $s->pegarServicosBarbeiro($barbeiro->getId_prof());
+                                                        foreach ($servicos as $servico){
+                                                            $id_servico = $servico->getId_servico();
+                                                            $nomeServico = $servico->getNome_servico();
+                                                            echo "<option value='$id_servico'>$nomeServico</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                                <label for="diaCorte">Agende o dia:</label>
+                                                <input class="form-control mb-3" id="diaCorte" placeholder="Dia do corte" type="date">
+                                                <label for="horarioCorte">Agende seu horário:</label>
+                                                <input class="form-control mb-3" id="horarioCorte" placeholder="Horário do corte" type="time">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Agendar</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

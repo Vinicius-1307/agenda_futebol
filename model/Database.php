@@ -4,7 +4,7 @@
         private $host = "127.0.0.1";
         private $user = "root";
         private $senha = "";
-        private $banco = "Tcc_rodrigo";
+        private $banco = "tcc_rodrigo";
         private $porta = "3306";
         private $con=null;
         private function conectar(){

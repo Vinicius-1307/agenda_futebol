@@ -32,12 +32,15 @@
 
     <h2 class="tituloHome mt-3">Cadastro</h2>
 
-
     <div class="container formulario">
         <form action="../controller/cadastroUsuario.php" method="POST">
             <div class="mb-3 mt-3">
-                <label for="nome" class="form-label">Nome:</label>
+                <label for="nome" class="form-label">Nome: </label>
                 <input type="text" required class="form-control" id="nome" placeholder="Digite seu nome" name="nome">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="cpf" class="form-label">CPF: </label>
+                <input type="text" required class="form-control" id="cpf" placeholder="Digite seu CPF" name="cpf">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">E-mail:</label>
@@ -46,6 +49,10 @@
             <div class="mb-3">
                 <label for="pwd" class="form-label">Senha:</label>
                 <input type="password" required class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
+            </div>
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input type="number" required class="form-control" id="telefone" placeholder="Digite seu telefone" name="telefone">
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
             <a href="../view/login.html"><button type="button" class="btn btn-outline-success">Login</button>
