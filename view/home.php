@@ -54,6 +54,7 @@
                             <p class="card-text text-center font-size-sm">Telefone: <?php echo $barbeiro->getTelefone(); ?></p>
                             <p class="card-text text-center font-size-sm">Ano de cadastro: <?php echo $barbeiro->getAno_cadastro(); ?></p>
                             <a href="#" class="btn btn-primary d-grid" data-bs-toggle="modal" data-bs-target="#<?php echo $barbeiro->getId_prof(); ?>">Agendar</a>
+                            <a href="./servicosProfissional.php?id_prof=<?php echo $barbeiro->getId_prof(); ?>" class="btn btn-success d-grid mt-2">Serviços</a>
                             <div class="modal fade" id="<?php echo $barbeiro->getId_prof(); ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -64,25 +65,27 @@
                                         <form action="../controller/agendamento.php">
                                             <div class="modal-body">
                                                 <label for="diaCorte">Serviço:</label>
-                                                <select class="form-select" aria-label="Default select example">
+                                                <select class="form-select mb-3" aria-label="Default select example">
                                                     <option selected>Selecione o Serviço</option>
                                                     <?php
-                                                        include('../model/Servicos.php');
-                                                        include('../model/Servico_profissional.php');
-                                                        
+                                                        include_once('../model/Servicos.php');
+                                                        include_once('../model/Servico_profissional.php');
                                                         $s = new Servicos();
                                                         $servicos = $s->pegarServicosBarbeiro($barbeiro->getId_prof());
+                                                        $inicioAtendimento = $barbeiro->getInicio_atendimento();
+                                                        $fimAtendimento = $barbeiro->getFim_atendimento();
                                                         foreach ($servicos as $servico){
                                                             $id_servico = $servico->getId_servico();
                                                             $nomeServico = $servico->getNome_servico();
                                                             echo "<option value='$id_servico'>$nomeServico</option>";
                                                         }
+                                                        var_dump($inicioAtendimento, $fimAtendimento);
                                                     ?>
                                                 </select>
                                                 <label for="diaCorte">Agende o dia:</label>
-                                                <input class="form-control mb-3" id="diaCorte" placeholder="Dia do corte" type="date">
-                                                <label for="horarioCorte">Agende seu horário:</label>
-                                                <input class="form-control mb-3" id="horarioCorte" placeholder="Horário do corte" type="time">
+                                                <input class="form-control mb-3" id="diaCorte" name="diaCorte" placeholder="Dia do corte" type="date">
+                                                <label for="horarioCorte">Agende seu horário entre (<?php echo $inicioAtendimento; ?> e <?php echo $fimAtendimento; ?>):</label>
+                                                <input class="form-control mb-3" min='<?php echo $inicioAtendimento; ?>' max='<?php echo $fimAtendimento; ?>' id="horarioCorte" name="horarioCorte" placeholder="Horário do corte" type="time">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">Agendar</button>

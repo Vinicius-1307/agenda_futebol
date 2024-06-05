@@ -30,7 +30,21 @@
             $stmt->bind_param("sss", $this->nome, $this->telefone, $this->cpf );
             $stmt->execute();
         }
-		
+
+        public function login($email, $senha){
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Clientes WHERE email = ? AND senha = ?");
+            $stmt->bind_param("ss", $email, $senha);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            while ($linha = $resultado->fetch_object()) { 
+                $this->setCpf($linha->cpf);
+				$this->setNome($linha->nome);
+				$this->setEmail($linha->email);
+				$this->setSenha($linha->senha);
+				$this->setTelefone($linha->telefone);
+            }
+            return $this;  
+        }
         public function readClientes($cpf) {
             $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Clientes WHERE cpf = ?");
             $stmt->bind_param("s", $cpf);

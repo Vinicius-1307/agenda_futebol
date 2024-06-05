@@ -9,13 +9,12 @@ CREATE TABLE profissionais (
 	ano_cadastro YEAR NOT NULL,
 	nome VARCHAR(45) NOT NULL,
 	inicio_atendimento TIME NOT NULL,
-	fim_atendimento VARCHAR(45) NOT NULL
+	fim_atendimento TIME NOT NULL
 );
 
 CREATE TABLE servicos (
 	id_servico INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	nome_servico VARCHAR(45) NOT NULL,
-	preco_servico INT(11) NOT NULL
+	nome_servico VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE horarios (
@@ -44,6 +43,7 @@ CREATE TABLE servico_profissional (
 	id_servico_prof INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	id_servico INT(11) NOT NULL,
 	id_prof INT(11) NOT NULL,
+	preco_servico INT(11) NOT NULL,
 	FOREIGN KEY (id_servico) REFERENCES servicos (id_servico),
 	FOREIGN KEY (id_prof) REFERENCES profissionais (id_prof)
 );

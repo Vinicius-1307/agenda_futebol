@@ -1,6 +1,6 @@
 <?php 
 
-include_once '../model/barber.php';
+include_once '../model/Profissionais.php';
 
 $nome = $_POST['nome'];
 $preço = $_POST['preco'];

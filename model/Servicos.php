@@ -6,6 +6,7 @@
         private $id_servico;
 		private $nome_servico;
 		private $preco_servico;
+        private $foto_servico;
 		private $banco;
 		
         function __construct() {
@@ -79,6 +80,25 @@
             }
             return $servicos;               
         }
+
+        public function pegarServicosCompletosBarbeiro($id_prof)
+        {
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servicos s INNER JOIN servico_profissional sp ON sp.id_servico = s.id_servico INNER JOIN fotos_servicos ON s.id_servico = fotos_servicos.id_servico WHERE sp.id_prof = ?");
+            $stmt->bind_param("i", $id_prof);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            $servicos = array();
+            $i = 0;
+            while ($linha = mysqli_fetch_object($resultado)) { 
+                $servicos[$i] = new Servicos();
+                $servicos[$i]->setId_servico($linha->id_servico);
+                $servicos[$i]->setNome_servico($linha->nome_servico);
+                $servicos[$i]->setPreco_servico($linha->preco_servico);
+                $servicos[$i]->setFoto_servico($linha->nome_arquivo);
+                $i++;
+            }
+            return $servicos;
+        }
 		
         public function getId_servico() { 
             return $this->id_servico; 
@@ -102,6 +122,15 @@
 		
         public function setPreco_servico($preco_servico) { 
             $this->preco_servico = $preco_servico; 
+        }
+
+        public function getFoto_servico()
+        {
+            return $this->foto_servico;
+        }
+
+        public function setFoto_servico($foto_servico){
+            $this->foto_servico = $foto_servico;
         }
 		
     }
