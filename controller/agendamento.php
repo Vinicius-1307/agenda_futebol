@@ -1,20 +1,26 @@
 <?php 
 
 include_once '../model/Horarios.php';
-
-$nome = $_POST['nome'];
-$preço = $_POST['preco'];
-$tempo = $_POST['minutos'];
+include_once '../model/Servicos.php';
+include_once '../model/Profissionais.php';
+include_once '../model/Servico_profissional.php';
 
 $horario = new Horarios();
+$servico_profissional = new Servico_profissional();
 
-$barber->setName($nome);
-$barber->setHaircut_price($preço);
-$barber->setTime_haircut($tempo);
+$servico = $_POST['servico'];
+$dia = $_POST['diaCorte'];
+$horariosCorte = $_POST['horarioCorte'];
+$id_prof = $_POST['id_prof'];
 
-if($barber->createBarber()){
-    header('Location: ../view/home.php');
-}
+$tempoServico = $servico_profissional->pegarTempoServico($id_prof)->getTempo_servico();
+$horario_inicio = $horariosCorte;
+$horario_fim = $horario_inicio + $tempoServico;
+
+
+// if($barber->createBarber()){
+//     header('Location: ../view/home.php');
+// }
 
 
 ?>

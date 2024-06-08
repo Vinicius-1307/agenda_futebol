@@ -44,6 +44,7 @@ CREATE TABLE servico_profissional (
 	id_servico INT(11) NOT NULL,
 	id_prof INT(11) NOT NULL,
 	preco_servico INT(11) NOT NULL,
+	tempo_servico TIME NOT NULL,
 	FOREIGN KEY (id_servico) REFERENCES servicos (id_servico),
 	FOREIGN KEY (id_prof) REFERENCES profissionais (id_prof)
 );

@@ -75,7 +75,7 @@
                 $servicos[$i]->setId_servico($linha->id_servico);
                 $servicos[$i]->setNome_servico($linha->nome_servico);
                 $servicos[$i]->setPreco_servico($linha->preco_servico);
-
+                
                 $i++;
             }
             return $servicos;               

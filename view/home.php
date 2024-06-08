@@ -62,10 +62,10 @@
                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Agende com <?php echo $barbeiro->getNome(); ?></h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form action="../controller/agendamento.php">
+                                        <form action="../controller/agendamento.php" method="POST">
                                             <div class="modal-body">
                                                 <label for="diaCorte">Serviço:</label>
-                                                <select class="form-select mb-3" aria-label="Default select example">
+                                                <select class="form-select mb-3" name="servico" aria-label="Default select example">
                                                     <option selected>Selecione o Serviço</option>
                                                     <?php
                                                         include_once('../model/Servicos.php');
@@ -79,13 +79,13 @@
                                                             $nomeServico = $servico->getNome_servico();
                                                             echo "<option value='$id_servico'>$nomeServico</option>";
                                                         }
-                                                        var_dump($inicioAtendimento, $fimAtendimento);
                                                     ?>
                                                 </select>
                                                 <label for="diaCorte">Agende o dia:</label>
                                                 <input class="form-control mb-3" id="diaCorte" name="diaCorte" placeholder="Dia do corte" type="date">
                                                 <label for="horarioCorte">Agende seu horário entre (<?php echo $inicioAtendimento; ?> e <?php echo $fimAtendimento; ?>):</label>
                                                 <input class="form-control mb-3" min='<?php echo $inicioAtendimento; ?>' max='<?php echo $fimAtendimento; ?>' id="horarioCorte" name="horarioCorte" placeholder="Horário do corte" type="time">
+                                                <input type="hidden" value="<?php echo $barbeiro->getId_prof(); ?>" name="id_prof">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">Agendar</button>

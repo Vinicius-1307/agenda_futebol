@@ -6,6 +6,7 @@
         private $id_servico_prof;
 		private $id_servico;
 		private $id_prof;
+        private $tempo_servico;
 		private $banco;
 		
         function __construct() {
@@ -60,6 +61,20 @@
             }
             return $vetorServico_profissional;
         }
+
+        public function pegarTempoServico($id_servico) {
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servico_profissional sp INNER JOIN Servicos s ON sp.id_servico = s.id_servico WHERE sp.id_servico = ?");
+            $stmt->bind_param("i", $id_servico);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            while ($linha = $resultado->fetch_object()) { 
+                $this->setId_servico_prof($linha->id_servico_prof);
+				$this->setId_servico($linha->id_servico);
+				$this->setId_prof($linha->id_prof);
+                $this->setTempo_servico($linha->tempo_servico);
+            }
+            return $this;     
+        }
 		
         public function getId_servico_prof() { 
             return $this->id_servico_prof; 
@@ -85,5 +100,24 @@
             $this->id_prof = $id_prof; 
         }
 		
+
+        /**
+         * Get the value of tempo_servico
+         */ 
+        public function getTempo_servico()
+        {
+            return $this->tempo_servico;
+        }
+
+        /**
+         * Set the value of tempo_servico
+         *
+         * @return  self
+         */ 
+        public function setTempo_servico($tempo_servico)
+        {
+            $this->tempo_servico = $tempo_servico;
+            return $this;
+        }
     }
 ?>
