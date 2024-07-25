@@ -7,6 +7,7 @@
 		private $id_servico;
 		private $id_prof;
         private $tempo_servico;
+        private $preco_servico;
 		private $banco;
 		
         function __construct() {
@@ -14,8 +15,8 @@
         }
 		
         public function createServico_profissional() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Servico_profissional (id_servico_prof, id_servico, id_prof) VALUES (?, ?, ?)");
-            $stmt->bind_param("iii", $this->id_servico_prof, $this->id_servico, $this->id_prof);
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Servico_profissional (id_servico_prof, id_servico, id_prof, preco_servico, tempo_servico) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("iiiss", $this->id_servico_prof, $this->id_servico, $this->id_prof, $this->preco_servico, $this->tempo_servico);
             return $stmt->execute();
         }
 		
@@ -26,8 +27,8 @@
         }
 		
         public function updateServico_profissional() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Servico_profissional SET id_servico=?,id_prof=? WHERE id_servico_prof = ?");
-            $stmt->bind_param("iii", $this->id_servico, $this->id_prof, $this->id_servico_prof );
+            $stmt = $this->banco->getConexao()->prepare("UPDATE Servico_profissional SET id_servico=?,id_prof=?,preco_servico=?,tempo_servico=? WHERE id_servico_prof = ?");
+            $stmt->bind_param("iii", $this->id_servico, $this->id_prof, $this->preco_servico, $this->tempo_servico, $this->id_servico_prof);
             $stmt->execute();
         }
 		
@@ -40,6 +41,8 @@
                 $this->setId_servico_prof($linha->id_servico_prof);
 				$this->setId_servico($linha->id_servico);
 				$this->setId_prof($linha->id_prof);
+                $this->setPreco_servico($linha->preco_servico);
+                $this->setTempo_servico($linha->tempo_servico);
 				
             }
             return $this;     
@@ -56,6 +59,8 @@
                 $vetorServico_profissional[$i]->setId_servico_prof($linha->id_servico_prof);
 				$vetorServico_profissional[$i]->setId_servico($linha->id_servico);
 				$vetorServico_profissional[$i]->setId_prof($linha->id_prof);
+                $vetorServico_profissional[$i]->setPreco_servico($linha->preco_servico);
+                $vetorServico_profissional[$i]->setTempo_servico($linha->tempo_servico);
 				
                 $i++;
             }
@@ -71,6 +76,7 @@
                 $this->setId_servico_prof($linha->id_servico_prof);
 				$this->setId_servico($linha->id_servico);
 				$this->setId_prof($linha->id_prof);
+                $this->setPreco_servico($linha->preco_servico);
                 $this->setTempo_servico($linha->tempo_servico);
             }
             return $this;     
@@ -99,7 +105,6 @@
         public function setId_prof($id_prof) { 
             $this->id_prof = $id_prof; 
         }
-		
 
         /**
          * Get the value of tempo_servico
@@ -117,6 +122,26 @@
         public function setTempo_servico($tempo_servico)
         {
             $this->tempo_servico = $tempo_servico;
+            return $this;
+        }
+
+        /**
+         * Get the value of preco_servico
+         */ 
+        public function getPreco_servico()
+        {
+            return $this->preco_servico;
+        }
+
+        /**
+         * Set the value of preco_servico
+         *
+         * @return  self
+         */ 
+        public function setPreco_servico($preco_servico)
+        {
+            $this->preco_servico = $preco_servico;
+
             return $this;
         }
     }

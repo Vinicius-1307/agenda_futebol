@@ -36,6 +36,11 @@
             $stmt->bind_param("ss", $email, $senha);
             $stmt->execute();
             $resultado = $stmt->get_result();
+
+            if ($resultado->num_rows < 1) {
+                return false;
+            }
+
             while ($linha = $resultado->fetch_object()) { 
                 $this->setCpf($linha->cpf);
 				$this->setNome($linha->nome);

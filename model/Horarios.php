@@ -15,8 +15,11 @@
 		
         public function createHorarios() {
             $stmt = $this->banco->getConexao()->prepare("INSERT INTO Horarios (id_horario, dia_semana, horario_inicio, horario_fim) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("i", $this->id_horario, $this->dia_semana, $this->horario_inicio, $this->horario_fim);
-            return $stmt->execute();
+            $stmt->bind_param("isss", $this->id_horario, $this->dia_semana, $this->horario_inicio, $this->horario_fim);
+            $horario = $stmt->execute();
+            $id_horario = $this->banco->getConexao()->insert_id;
+            $this->setId_horario($id_horario);
+            return $horario;
         }
 		
         public function deleteHorarios() {

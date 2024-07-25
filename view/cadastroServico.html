@@ -33,21 +33,24 @@
     <h2 class="tituloHome mt-3">Cadastro Serviço</h2>
 
     <div class="container formulario">
-        <form action="../controller/cadastroBarbeiro.php" method="POST">
+        <form action="../controller/cadastroServico.php" method="POST" enctype="multipart/form-data">
             <div class="mb-3 mt-3">
-                <label for="nome" class="form-label">Nome:</label>
-                <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" name="nome">
+                <label for="nome" class="form-label">Serviço:</label>
+                <input type="text" class="form-control" id="nomeServico" placeholder="Nome do serviço" name="nomeServico">
             </div>
             <div class="mb-3">
-                <label for="preco" class="form-label">Preço que Cobra:</label>
-                <input type="text" class="form-control" id="preco" placeholder="Digite o preço que o barbeiro cobra" name="preco">
+                <label for="preco" class="form-label">Preço:</label>
+                <input type="number" class="form-control" id="preco" placeholder="Digite o preço que o barbeiro cobra" name="preco">
             </div>
             <div class="mb-3">
-                <label for="duracao">Duração do corte: (Minutos)</label><br>
-                <input type="number" class="form-control" id="minutos" name="minutos" min="0" max="60" placeholder="Minutos">
+                <label for="duracao">Duração serviço: (Minutos)</label><br>
+                <input type="time" class="form-control" id="tempo" name="tempo" min="0" max="60" placeholder="Minutos">
+            </div>
+            <div class="mb-3">
+                <label for="duracao">Fotos serviço:</label><br>
+                <input type="file" class="form-control" id="fotos" name="fotos[]" multiple>
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
-            <a href="../view/login.html"><button type="button" class="btn btn-outline-success">Login</button>
         </form>
     </div>
 
