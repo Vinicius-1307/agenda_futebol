@@ -21,7 +21,7 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/meusHorarios.php">Meus horários</a>
+                    <a class="nav-link" href="#">Meus horários</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../view/home.php">Agendar horários</a>
@@ -105,15 +105,6 @@
             endforeach;
             ?>
         </div>
-
-        <!-- <div class="card" style="width:400px">
-            <img class="card-img-top" src="img_avatar1.png" alt="Card image">
-            <div class="card-body">
-                <h4 class="card-title">John Doe</h4>
-                <p class="card-text">Some example text.</p>
-                <a href="#" class="btn btn-primary">See Profile</a>
-            </div>
-        </div> -->
 
     </div>
 

@@ -19,7 +19,7 @@
 		
         public function createProfissionais() {
             $stmt = $this->banco->getConexao()->prepare("INSERT INTO Profissionais (id_prof, cpf, rg, telefone, ano_cadastro, nome, inicio_atendimento, fim_atendimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("isssss", $this->id_prof, $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento);
+            $stmt->bind_param("isssssss", $this->id_prof, $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento);
             return $stmt->execute();
         }
 		

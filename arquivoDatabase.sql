@@ -29,7 +29,8 @@ CREATE TABLE clientes (
 	nome VARCHAR(45) NOT NULL,
 	telefone VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
-    senha VARCHAR(45) NOT NULL
+    senha VARCHAR(45) NOT NULL,
+	is_admin INTEGER NOT NULL,
 );
 
 CREATE TABLE fotos_servicos (

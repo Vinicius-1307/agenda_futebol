@@ -7,6 +7,7 @@ include_once '../model/Fotos_servicos.php';
 $nomeServico = $_POST['nomeServico'];
 $preco = $_POST['preco'];
 $tempo = $_POST['tempo'];
+$idProfissional = $_POST['profissional'];
 
 $servico = new Servicos();
 $servicoProfissional = new Servico_profissional();
@@ -20,7 +21,7 @@ if ($servico->createServicos()) {
     $servicoProfissional->setId_servico($id_servico);
     $servicoProfissional->setTempo_servico($tempo);
     $servicoProfissional->setPreco_servico($preco);
-    $servicoProfissional->setId_prof(1);
+    $servicoProfissional->setId_prof($idProfissional);
 
     if ($servicoProfissional->createServico_profissional()) {
         $fotosServicos->setId_servico($id_servico);
@@ -33,23 +34,23 @@ if ($servico->createServicos()) {
                 
                 if (move_uploaded_file($tmp_name, $upload_file)) {
                     $fotosServicos->setNome_arquivo($upload_file);
-                    if($fotosServicos->createFotos_servicos()){
-                        echo <<<HTML
-                            <script>
-                                alert('Serviço cadastrado!');
-                                window.location.href='../view/home.php';
-                            </script>
-                        HTML;
-                    }
+                    $fotosServicos->createFotos_servicos();
                 }
             }
         }
+
+        echo <<<HTML
+            <script>
+                alert('Serviço cadastrado!');
+                window.location.href='../view/administrador.html';
+            </script>
+        HTML;
 
     } else {
         echo <<<HTML
             <script>
                 alert('Erro ao criar serviço!');
-                window.location.href='../view/cadastroServico.html';
+                window.location.href='../view/cadastroServico.php';
             </script>
         HTML;
     }
@@ -57,7 +58,7 @@ if ($servico->createServicos()) {
     echo <<<HTML
         <script>
             alert('Erro ao criar serviço!');
-            window.location.href='../view/cadastroServico.html';
+            window.location.href='../view/cadastroServico.php';
         </script>
     HTML;
 }

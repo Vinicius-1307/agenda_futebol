@@ -8,14 +8,15 @@
 		private $banco;
         private $email;
         private $senha;
+        private $is_admin;
 		
         function __construct() {
             $this->banco = new BancoTcc_rodrigo();
         }
 		
         public function createClientes() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Clientes (cpf, nome, telefone, email, senha) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $this->cpf, $this->nome, $this->telefone, $this->email, $this->senha);
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Clientes (cpf, nome, telefone, email, senha, is_admin) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssssi", $this->cpf, $this->nome, $this->telefone, $this->email, $this->senha);
             return $stmt->execute();
         }
 		
@@ -47,6 +48,7 @@
 				$this->setEmail($linha->email);
 				$this->setSenha($linha->senha);
 				$this->setTelefone($linha->telefone);
+                $this->setIs_admin($linha->is_admin);
             }
             return $this;  
         }
@@ -61,7 +63,7 @@
 				$this->setTelefone($linha->telefone);
 				$this->setEmail($linha->email);
 				$this->setSenha($linha->senha);
-				
+                $this->setIs_admin($linha->is_admin);
             }
             return $this;     
         }
@@ -80,6 +82,7 @@
 				$vetorClientes[$i]->setTelefone($linha->telefone);
 				$vetorClientes[$i]->setEmail($linha->email);
 				$vetorClientes[$i]->setSenha($linha->senha);
+                $vetorClientes[$i]->setIs_admin($linha->is_admin);
 				
                 $i++;
             }
@@ -130,5 +133,23 @@
             return $this->email = $email;
         }
 		
+        /**
+         * Get the value of is_admin
+         */ 
+        public function getIs_admin()
+        {
+            return $this->is_admin;
+        }
+
+        /**
+         * Set the value of is_admin
+         *
+         * @return  self
+         */ 
+        public function setIs_admin($is_admin)
+        {
+            $this->is_admin = $is_admin;
+            return $this;
+        }
     }
 ?>

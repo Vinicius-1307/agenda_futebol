@@ -24,6 +24,9 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a class="nav-link" href="../view/administrador.html">Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="../view/login.html">Sair</a>
                 </li>
             </ul>
@@ -36,15 +39,28 @@
         <form action="../controller/cadastroServico.php" method="POST" enctype="multipart/form-data">
             <div class="mb-3 mt-3">
                 <label for="nome" class="form-label">Serviço:</label>
-                <input type="text" class="form-control" id="nomeServico" placeholder="Nome do serviço" name="nomeServico">
+                <input type="text" class="form-control" id="nomeServico" required placeholder="Nome do serviço" name="nomeServico">
+            </div>
+            <div class="mb-3">
+                <label for="profissional" class="form-label">Profissional:</label>
+                <select class="form-control" id="profissional" name="profissional" required>
+                    <option value="" disabled selected>Selecione um profissional</option>
+                    <?php
+                    include_once('../model/Profissionais.php');
+                    $profissional = new Profissionais();
+                    foreach ($profissional->readAll() as $prof) {
+                        echo '<option value="' . ($prof->getId_prof()) . '">' . htmlspecialchars($prof->getNome()) . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="preco" class="form-label">Preço:</label>
-                <input type="number" class="form-control" id="preco" placeholder="Digite o preço que o barbeiro cobra" name="preco">
+                <input type="number" class="form-control" id="preco" required placeholder="Digite o preço que o barbeiro cobra" name="preco">
             </div>
             <div class="mb-3">
                 <label for="duracao">Duração serviço: (Minutos)</label><br>
-                <input type="time" class="form-control" id="tempo" name="tempo" min="0" max="60" placeholder="Minutos">
+                <input type="time" class="form-control" id="tempo" required name="tempo" min="0" max="60" placeholder="Minutos">
             </div>
             <div class="mb-3">
                 <label for="duracao">Fotos serviço:</label><br>

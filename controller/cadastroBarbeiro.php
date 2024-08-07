@@ -3,18 +3,29 @@
 include_once '../model/Profissionais.php';
 
 $nome = $_POST['nome'];
-$preço = $_POST['preco'];
-$tempo = $_POST['minutos'];
+$cpf = $_POST['cpf'];
+$rg = $_POST['rg'];
+$telefone = $_POST['telefone'];
+$inicio_atendimento = $_POST['inicioAtendimento'];
+$fim_atendimento = $_POST['fimAtendimento'];
+$ano = date('Y');
 
 $profissional = new Profissionais();
 
 $profissional->setNome($nome);
-// $profissional->setHaircut_price($preço);
-// $profissional->setTime_haircut($tempo);
+$profissional->setCpf($cpf);
+$profissional->setRg($rg);
+$profissional->setTelefone($telefone);
+$profissional->setInicio_atendimento($inicio_atendimento);
+$profissional->setFim_atendimento($fim_atendimento);
+$profissional->setAno_cadastro($ano);
 
 if($profissional->createProfissionais()){
-    header('Location: ../view/home.php');
-}
-
+    echo <<<HTML
+        <script>
+            alert('Profissional cadastrado com sucesso!');
+            window.location.href='../view/administrador.html';
+        </script>
+    HTML;}
 
 ?>
