@@ -49,7 +49,7 @@
             $precoServico = $servico->getPreco_servico();
             $html = <<<HTML
                 <div class='card' style='width: 18rem;'>
-                    <img src='$fotoServico' class='card-img-top' alt='...'>
+                    <img src='$fotoServico ?? ../uploads/img/sem-imagem.jpg' class='card-img-top' alt='...'>
                     <div class='card-body'>
                         <h5 class='card-title'>Servico: $nomeServico</h5>
                         <p class='card-text'>Preço: $precoServico</p>
@@ -58,7 +58,6 @@
             HTML;
             echo $html;
         }
-
     ?>
 
     <div class="footer mt-5 p-4 text-white text-center">
