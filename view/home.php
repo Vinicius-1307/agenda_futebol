@@ -88,7 +88,6 @@
                                                 <input class="form-control mb-3" id="diaCorte" name="diaCorte" placeholder="Dia do corte" type="date">
                                                 <label for="horarioCorte">Agende seu horário entre (<?php echo $inicioAtendimento; ?> e <?php echo $fimAtendimento; ?>):</label>
                                                 <input class="form-control mb-3" min='<?php echo $inicioAtendimento; ?>' max='<?php echo $fimAtendimento; ?>' id="horarioCorte" name="horarioCorte" placeholder="Horário do corte" type="time">
-                                                <input type="hidden" value="<?php echo $barbeiro->getId_prof(); ?>" name="id_prof">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">Agendar</button>

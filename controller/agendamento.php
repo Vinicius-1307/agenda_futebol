@@ -16,9 +16,8 @@ $servico_profissional = new Servico_profissional();
 $servico = $_POST['servico'];
 $dia = $_POST['diaCorte'];
 $horariosCorte = $_POST['horarioCorte'];
-$id_prof = $_POST['id_prof'];
 
-$tempoServico = $servico_profissional->pegarTempoServico($id_prof)->getTempo_servico();
+$tempoServico = $servico_profissional->pegarTempoServico($servico)->getTempo_servico();
 
 $data_inicio = new DateTime($dia . ' ' . $horariosCorte, $timezone);
 
