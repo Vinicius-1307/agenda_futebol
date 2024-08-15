@@ -7,6 +7,7 @@
 		private $nome_servico;
 		private $preco_servico;
         private $foto_servico;
+        private $tempo_servico;
 		private $banco;
 		
         function __construct() {
@@ -98,6 +99,7 @@
                 $servicos[$i]->setNome_servico($linha->nome_servico);
                 $servicos[$i]->setPreco_servico($linha->preco_servico);
                 $servicos[$i]->setFoto_servico($linha->nome_arquivo);
+                $servicos[$i]->setTempo_servico($linha->tempo_servico);
                 $i++;
             }
             return $servicos;
@@ -136,5 +138,24 @@
             $this->foto_servico = $foto_servico;
         }
 		
+        /**
+         * Get the value of tempo_servico
+         */ 
+        public function getTempo_servico()
+        {
+                return $this->tempo_servico;
+        }
+
+        /**
+         * Set the value of tempo_servico
+         *
+         * @return  self
+         */ 
+        public function setTempo_servico($tempo_servico)
+        {
+                $this->tempo_servico = $tempo_servico;
+
+                return $this;
+        }
     }
 ?>

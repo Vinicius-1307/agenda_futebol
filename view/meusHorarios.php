@@ -21,6 +21,9 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a class="nav-link" href="./administrador.html">Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Cadastrar</a>
                 </li>
                 <li class="nav-item">

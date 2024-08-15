@@ -43,21 +43,41 @@
         $s = new Servicos();
         $servicos = $s->pegarServicosCompletosBarbeiro($id_barbeiro);
 
+        echo "<div class='container'>";
+        echo "<div class='row'>";
+
+        $counter = 0;
         foreach($servicos as $servico){
             $nomeServico = $servico->getNome_servico();
             $fotoServico = $servico->getFoto_servico();
             $precoServico = $servico->getPreco_servico();
+            
+            $tempoServico = DateTime::createFromFormat('H:i:s', $servico->getTempo_servico());
+            $tempoFormatado = $tempoServico ? $tempoServico->format('H:i:s') : '00:00:00';
+            $caminhoImagem = $fotoServico ?? '../uploads/img/sem-imagem.jpg';
+            
             $html = <<<HTML
-                <div class='card' style='width: 18rem;'>
-                    <img src='$fotoServico ?? ../uploads/img/sem-imagem.jpg' class='card-img-top' alt='...'>
-                    <div class='card-body'>
-                        <h5 class='card-title'>Servico: $nomeServico</h5>
-                        <p class='card-text'>Preço: $precoServico</p>
+                <div class='col-md-4 d-flex mb-4'>
+                    <div class='card w-100'>
+                        <img src='$caminhoImagem' class='card-img-top' alt='...' style='height: 250px; object-fit: cover;'>
+                        <div class='card-body d-flex flex-column'>
+                            <h5 class='card-title'>Serviço: $nomeServico</h5>
+                            <p class='card-text mb-1'>Preço: R$$precoServico</p>
+                            <p class='card-text'>Tempo serviço: $tempoFormatado</p>
+                        </div>
                     </div>
                 </div>
             HTML;
+            
             echo $html;
+
+            $counter++;
+            if ($counter % 3 == 0) {
+                echo "</div><div class='row'>"; 
+            }
         }
+        echo "</div>"; 
+        echo "</div>"; 
     ?>
 
     <div class="footer mt-5 p-4 text-white text-center">
