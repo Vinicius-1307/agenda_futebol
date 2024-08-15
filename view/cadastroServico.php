@@ -64,7 +64,7 @@
             </div>
             <div class="mb-3">
                 <label for="duracao">Fotos serviço:</label><br>
-                <input type="file" class="form-control" id="fotos" name="fotos[]" multiple>
+                <input type="file" class="form-control" id="fotos" name="fotos[]">
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
