@@ -15,6 +15,7 @@ $cliente->setEmail($email);
 $cliente->setSenha($senha);
 $cliente->setTelefone($telefone);
 $cliente->setCpf($cpf);
+$cliente->setIs_admin(0);
 
 if($cliente->createClientes()){
     header('Location: ../view/home.php');

@@ -16,7 +16,7 @@
 		
         public function createClientes() {
             $stmt = $this->banco->getConexao()->prepare("INSERT INTO Clientes (cpf, nome, telefone, email, senha, is_admin) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssssi", $this->cpf, $this->nome, $this->telefone, $this->email, $this->senha);
+            $stmt->bind_param("sssssd", $this->cpf, $this->nome, $this->telefone, $this->email, $this->senha, $this->is_admin);
             return $stmt->execute();
         }
 		
