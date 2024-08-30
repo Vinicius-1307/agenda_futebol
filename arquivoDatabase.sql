@@ -30,7 +30,7 @@ CREATE TABLE clientes (
 	telefone VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
     senha VARCHAR(45) NOT NULL,
-	is_admin INT(11) NOT NULL,
+	is_admin INT(11) NOT NULL
 );
 
 CREATE TABLE fotos_servicos (
