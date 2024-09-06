@@ -1,4 +1,3 @@
-
 <?php
        require_once 'Database.php';
 
@@ -11,6 +10,8 @@
 		private $nome;
 		private $inicio_atendimento;
 		private $fim_atendimento;
+		private $email;
+		private $senha;
 		private $banco;
 		
         function __construct() {
@@ -18,8 +19,8 @@
         }
 		
         public function createProfissionais() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Profissionais (id_prof, cpf, rg, telefone, ano_cadastro, nome, inicio_atendimento, fim_atendimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("isssssss", $this->id_prof, $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento);
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Profissionais (id_prof, cpf, rg, telefone, ano_cadastro, nome, inicio_atendimento, fim_atendimento, email, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("isssssssss", $this->id_prof, $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento, $this->email, $this->senha);
             return $stmt->execute();
         }
 		
@@ -34,7 +35,30 @@
             $stmt->bind_param("sssssi", $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento, $this->id_prof );
             $stmt->execute();
         }
-		
+
+        public function login($email, $senha){
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Profissionais WHERE email = ? AND senha = ?");
+            $stmt->bind_param("ss", $email, $senha);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            if ($resultado->num_rows < 1) {
+                return false;
+            }
+            while ($linha = $resultado->fetch_object()) { 
+                $this->setId_prof($linha->id_prof);
+				$this->setCpf($linha->cpf);
+				$this->setRg($linha->rg);
+				$this->setTelefone($linha->telefone);
+				$this->setAno_cadastro($linha->ano_cadastro);
+				$this->setNome($linha->nome);
+				$this->setInicio_atendimento($linha->inicio_atendimento);
+				$this->setFim_atendimento($linha->fim_atendimento);
+				$this->setEmail($linha->email);
+				$this->setSenha($linha->senha);
+            }
+            return $this;  
+        }
         public function readProfissionais($id_prof) {
             $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Profissionais WHERE id_prof = ?");
             $stmt->bind_param("i", $id_prof);
@@ -140,5 +164,45 @@
             $this->fim_atendimento = $fim_atendimento; 
         }
 		
+
+		/**
+		 * Get the value of email
+		 */ 
+		public function getEmail()
+		{
+            return $this->email;
+		}
+
+		/**
+		 * Set the value of email
+		 *
+		 * @return  self
+		 */ 
+		public function setEmail($email)
+		{
+            $this->email = $email;
+
+            return $this;
+		}
+
+		/**
+		 * Get the value of senha
+		 */ 
+		public function getSenha()
+		{
+            return $this->senha;
+		}
+
+		/**
+		 * Set the value of senha
+		 *
+		 * @return  self
+		 */ 
+		public function setSenha($senha)
+		{
+            $this->senha = $senha;
+
+            return $this;
+		}
     }
 ?>

@@ -24,7 +24,8 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/administrador.html">Home</a>
+                    <?php session_start(); $rota = $_SESSION['is_admin'] == 1 ?  "<a class='nav-link' href='../view/administrador.html'>Home</a>" : "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";?>
+                    <?php echo $rota ?>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../view/login.html">Sair</a>
@@ -46,11 +47,17 @@
                 <select class="form-control" id="profissional" name="profissional" required>
                     <option value="" disabled selected>Selecione um profissional</option>
                     <?php
-                    include_once('../model/Profissionais.php');
-                    $profissional = new Profissionais();
-                    foreach ($profissional->readAll() as $prof) {
-                        echo '<option value="' . ($prof->getId_prof()) . '">' . htmlspecialchars($prof->getNome()) . '</option>';
-                    }
+                        session_start();
+                        include_once('../model/Profissionais.php');
+                        if($_SESSION['is_admin'] == 1){
+                            var_dump('ta entrando no if');
+                            $profissional = new Profissionais();
+                            foreach ($profissional->readAll() as $prof) {
+                                echo '<option value="' . ($prof->getId_prof()) . '">' . htmlspecialchars($prof->getNome()) . '</option>';
+                            }
+                        } else {
+                            echo '<option value="' . ($_SESSION['id_prof']) . '">' . $_SESSION['nomeBarbeiro'] . '</option>';
+                        }
                     ?>
                 </select>
             </div>

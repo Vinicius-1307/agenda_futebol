@@ -1,12 +1,15 @@
 
 <?php
-       require_once 'Database.php';
+    require_once 'Database.php';
 
     class Agendas {
         private $id;
 		private $cpf_cliente;
 		private $id_horario;
 		private $id_servico_prof;
+        private $dia_semana;
+		private $horario_inicio;
+		private $horario_fim;
 		private $banco;
 		
         function __construct() {
@@ -44,6 +47,56 @@
 				
             }
             return $this;     
+        }
+
+        public function agendaHorarioUsuario($cpfCliente)
+        {
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Agendas INNER JOIN Horarios ON Agendas.id = Horarios.id_horario WHERE cpf_cliente = ?");
+            $stmt->bind_param("s", $cpfCliente);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $vetorAgendas = array();
+            $i=0;
+            while ($linha = mysqli_fetch_object($result)) {
+                $vetorAgendas[$i] = new Agendas();
+                $vetorAgendas[$i]->setId($linha->id);
+				$vetorAgendas[$i]->setCpf_cliente($linha->cpf_cliente);
+				$vetorAgendas[$i]->setId_horario($linha->id_horario);
+				$vetorAgendas[$i]->setId_servico_prof($linha->id_servico_prof);
+				$vetorAgendas[$i]->setHorario_inicio($linha->horario_inicio);
+				$vetorAgendas[$i]->setHorario_fim($linha->horario_fim);
+				$vetorAgendas[$i]->setDia_semana($linha->dia_semana);
+				
+                $i++;
+            }
+            return $vetorAgendas;
+        }
+
+        public function agendaHorarioBarbeiro($idsServicosProf)
+        {
+            $placeholders = implode(',', array_fill(0, count($idsServicosProf), '?'));
+        
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Agendas a INNER JOIN Horarios h ON a.id = h.id_horario WHERE a.id_servico_prof IN ($placeholders)");
+        
+            $types = str_repeat('i', count($idsServicosProf));
+            $stmt->bind_param($types, ...$idsServicosProf);
+        
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $vetorAgendas = array();
+            $i = 0;
+            while ($linha = mysqli_fetch_object($result)) {
+                $vetorAgendas[$i] = new Agendas();
+                $vetorAgendas[$i]->setId($linha->id);
+                $vetorAgendas[$i]->setCpf_cliente($linha->cpf_cliente);
+                $vetorAgendas[$i]->setId_horario($linha->id_horario);
+                $vetorAgendas[$i]->setId_servico_prof($linha->id_servico_prof);
+                $vetorAgendas[$i]->setHorario_inicio($linha->horario_inicio);
+                $vetorAgendas[$i]->setHorario_fim($linha->horario_fim);
+                $vetorAgendas[$i]->setDia_semana($linha->dia_semana);
+                $i++;
+            }
+            return $vetorAgendas;
         }
 		
         public function readAll() {
@@ -96,5 +149,65 @@
             $this->id_servico_prof = $id_servico_prof; 
         }
 		
+
+		/**
+		 * Get the value of horario_fim
+		 */ 
+		public function getHorario_fim()
+		{
+            return $this->horario_fim;
+		}
+
+		/**
+		 * Set the value of horario_fim
+		 *
+		 * @return  self
+		 */ 
+		public function setHorario_fim($horario_fim)
+		{
+            $this->horario_fim = $horario_fim;
+
+            return $this;
+		}
+
+        /**
+         * Get the value of dia_semana
+         */ 
+        public function getDia_semana()
+        {
+            return $this->dia_semana;
+        }
+
+        /**
+         * Set the value of dia_semana
+         *
+         * @return  self
+         */ 
+        public function setDia_semana($dia_semana)
+        {
+            $this->dia_semana = $dia_semana;
+
+            return $this;
+        }
+
+		/**
+		 * Get the value of horario_inicio
+		 */ 
+		public function getHorario_inicio()
+		{
+            return $this->horario_inicio;
+		}
+
+		/**
+		 * Set the value of horario_inicio
+		 *
+		 * @return  self
+		 */ 
+		public function setHorario_inicio($horario_inicio)
+		{
+            $this->horario_inicio = $horario_inicio;
+
+            return $this;
+		}
     }
 ?>

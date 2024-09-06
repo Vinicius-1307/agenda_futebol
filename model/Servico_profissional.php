@@ -8,6 +8,8 @@
 		private $id_prof;
         private $tempo_servico;
         private $preco_servico;
+        private $profissional;
+        private $servico;
 		private $banco;
 		
         function __construct() {
@@ -81,6 +83,32 @@
             }
             return $this;     
         }
+
+        public function pegarProfissionalServico($id_servico_prof) {
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servico_profissional sp INNER JOIN Servicos s ON sp.id_servico = s.id_servico INNER JOIN Profissionais p ON sp.id_prof = p.id_prof WHERE sp.id_servico_prof = ?");
+            $stmt->bind_param("i", $id_servico_prof);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            while ($linha = $resultado->fetch_object()) { 
+                $this->setProfissional($linha->nome);
+                $this->setServico($linha->nome_servico);
+            }
+            return $this;     
+        }
+
+        public function pegarServicosProfissional($id_prof) {
+            $stmt = $this->banco->getConexao()->prepare("SELECT sp.id_servico_prof FROM Servico_profissional sp INNER JOIN Servicos s ON sp.id_servico = s.id_servico WHERE sp.id_prof = ?");
+            $stmt->bind_param("i", $id_prof);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $idServicoProfArray = array();
+        
+            while ($linha = $result->fetch_object()) {
+                $idServicoProfArray[] = $linha->id_servico_prof;
+            }
+        
+            return $idServicoProfArray;
+        }
 		
         public function getId_servico_prof() { 
             return $this->id_servico_prof; 
@@ -141,6 +169,46 @@
         public function setPreco_servico($preco_servico)
         {
             $this->preco_servico = $preco_servico;
+
+            return $this;
+        }
+
+        /**
+         * Get the value of profissional
+         */ 
+        public function getProfissional()
+        {
+            return $this->profissional;
+        }
+
+        /**
+         * Set the value of profissional
+         *
+         * @return  self
+         */ 
+        public function setProfissional($profissional)
+        {
+            $this->profissional = $profissional;
+
+            return $this;
+        }
+
+        /**
+         * Get the value of servico
+         */ 
+        public function getServico()
+        {
+            return $this->servico;
+        }
+
+        /**
+         * Set the value of servico
+         *
+         * @return  self
+         */ 
+        public function setServico($servico)
+        {
+            $this->servico = $servico;
 
             return $this;
         }

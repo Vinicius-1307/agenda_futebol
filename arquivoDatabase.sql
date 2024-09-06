@@ -9,7 +9,9 @@ CREATE TABLE profissionais (
 	ano_cadastro YEAR NOT NULL,
 	nome VARCHAR(45) NOT NULL,
 	inicio_atendimento TIME NOT NULL,
-	fim_atendimento TIME NOT NULL
+	fim_atendimento TIME NOT NULL,
+	email VARCHAR(45),
+	senha VARCHAR(45)
 );
 
 CREATE TABLE servicos (

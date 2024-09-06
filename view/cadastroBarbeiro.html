@@ -38,27 +38,35 @@
     <div class="container formulario">
         <form action="../controller/cadastroBarbeiro.php" method="POST">
             <div class="mb-2 mt-2">
-                <label for="nome" class="form-label">Nome:</label>
+                <label for="nome" class="form-label">Nome*</label>
                 <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" name="nome">
             </div>
             <div class="mb-2 mt-2">
-                <label for="nome" class="form-label">CPF:</label>
+                <label for="nome" class="form-label">CPF*</label>
                 <input type="text" class="form-control" id="cpf" placeholder="Digite seu CPF" name="cpf">
             </div>
             <div class="mb-2 mt-2">
-                <label for="nome" class="form-label">RG:</label>
+                <label for="nome" class="form-label">RG*</label>
                 <input type="text" class="form-control" id="rg" placeholder="Digite seu RG" name="rg">
             </div>
             <div class="mb-2 mt-2">
-                <label for="nome" class="form-label">Telefone:</label>
-                <input type="text" class="form-control" id="telefone" placeholder="Digite seu Telefone" name="telefone">
+                <label for="nome" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" placeholder="Digite seu E-mail" name="email">
             </div>
             <div class="mb-2 mt-2">
-                <label for="nome" class="form-label">Início Atendimento:</label>
+                <label for="nome" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
+            </div>
+            <div class="mb-2 mt-2">
+                <label for="nome" class="form-label">Telefone*</label>
+                <input type="number" class="form-control" id="telefone" placeholder="Digite seu Telefone" name="telefone">
+            </div>
+            <div class="mb-2 mt-2">
+                <label for="nome" class="form-label">Início Atendimento*</label>
                 <input type="time" class="form-control" id="inicioAtendimento" placeholder="Início de Atendimento" name="inicioAtendimento">
             </div>
             <div class="mb-2 mt-2">
-                <label for="nome" class="form-label">Fim Atendimento:</label>
+                <label for="nome" class="form-label">Fim Atendimento*</label>
                 <input type="time" class="form-control" id="fimAtendimento" placeholder="Fim de Atendimento" name="fimAtendimento">
             </div>
             <button type="submit" class="btn btn-primary mt-1">Enviar</button>

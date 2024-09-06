@@ -8,6 +8,8 @@ $rg = $_POST['rg'];
 $telefone = $_POST['telefone'];
 $inicio_atendimento = $_POST['inicioAtendimento'];
 $fim_atendimento = $_POST['fimAtendimento'];
+$email = $_POST['email'];
+$senha = $_POST['senha'];
 $ano = date('Y');
 
 $profissional = new Profissionais();
@@ -19,6 +21,8 @@ $profissional->setTelefone($telefone);
 $profissional->setInicio_atendimento($inicio_atendimento);
 $profissional->setFim_atendimento($fim_atendimento);
 $profissional->setAno_cadastro($ano);
+$profissional->setEmail($email);
+$profissional->setSenha($senha);
 
 if($profissional->createProfissionais()){
     echo <<<HTML

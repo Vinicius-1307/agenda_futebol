@@ -21,10 +21,7 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/meusHorarios.php">Meus horários</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../view/home.php">Agendar horários</a>
+                    <a class="nav-link" href="../view/agendasCliente.php">Meus horários</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../view/login.html">Sair</a>
