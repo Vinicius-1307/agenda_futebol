@@ -81,7 +81,7 @@
     ?>
 
     <div class="footer mt-5 p-4 text-white text-center">
-        <p>Footer</p>
+        <p></p>
     </div>
 </body>
 
