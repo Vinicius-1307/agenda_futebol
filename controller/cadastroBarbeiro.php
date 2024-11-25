@@ -3,8 +3,8 @@
 include_once '../model/Profissionais.php';
 
 $nome = $_POST['nome'];
-$cpf = $_POST['cpf'];
-$rg = $_POST['rg'];
+$cpf = str_replace(['.', '-'], '', $_POST['cpf']);
+$rg = str_replace(['.', '-'], '', $_POST['rg']);
 $telefone = $_POST['telefone'];
 $inicio_atendimento = $_POST['inicioAtendimento'];
 $fim_atendimento = $_POST['fimAtendimento'];
