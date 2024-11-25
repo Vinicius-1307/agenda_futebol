@@ -18,6 +18,7 @@ $cliente->setCpf($cpf);
 $cliente->setIs_admin(0);
 
 if($cliente->createClientes()){
+    session_start();
     $_SESSION['cpf'] = $cliente->getCpf();
     header('Location: ../view/home.php');
 }else{
