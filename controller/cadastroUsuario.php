@@ -6,7 +6,7 @@ $nome = $_POST['nome'];
 $email = $_POST['email'];
 $senha = $_POST['senha'];
 $telefone = $_POST['telefone'];
-$cpf = $_POST['cpf'];
+$cpf = str_replace(['.', '-'], '', $_POST['cpf']);
 
 $cliente = new Clientes();
 
@@ -18,6 +18,7 @@ $cliente->setCpf($cpf);
 $cliente->setIs_admin(0);
 
 if($cliente->createClientes()){
+    $_SESSION['cpf'] = $cliente->getCpf();
     header('Location: ../view/home.php');
 }else{
     header('Location: ../view/cadastroBarbeiro.html');
