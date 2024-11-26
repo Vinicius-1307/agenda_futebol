@@ -24,9 +24,6 @@
                     <a class="nav-link" href="./home.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cadastrar</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="../view/login.html">Sair</a>
                 </li>
             </ul>
