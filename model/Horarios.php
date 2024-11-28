@@ -48,6 +48,24 @@
             }
             return $this;     
         }
+
+        public function buscarHorario($dia_semana, $horario_inicio, $horario_fim, $id_profissional) {
+            $stmt = $this->banco->getConexao()->prepare("SELECT 1 FROM Horarios h INNER JOIN Agendas a ON h.id_horario = a.id_horario INNER JOIN servico_profissional sp ON a.id_servico_prof = sp.id_servico_prof WHERE h.dia_semana = ? AND h.horario_inicio = ?  AND h.horario_fim = ?  AND sp.id_prof = ?");
+            $stmt->bind_param("sssi", $dia_semana, $horario_inicio, $horario_fim, $id_profissional);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+        
+            return $resultado->num_rows > 0;
+        }
+
+        public function verificarHorario($dia_semana, $horario_inicio, $id_profissional) {
+            $stmt = $this->banco->getConexao()->prepare("SELECT 1 FROM Horarios h INNER JOIN Agendas a ON h.id_horario = a.id_horario INNER JOIN servico_profissional sp ON a.id_servico_prof = sp.id_servico_prof WHERE h.dia_semana = ? AND ? BETWEEN h.horario_inicio AND h.horario_fim AND sp.id_prof = ?");
+            $stmt->bind_param("ssi", $dia_semana, $horario_inicio, $id_profissional);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+        
+            return $resultado->num_rows > 0;
+        }      
 		
         public function readAll() {
             $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Horarios");

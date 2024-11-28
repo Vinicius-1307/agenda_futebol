@@ -27,31 +27,45 @@ $tempoServicoInterval = new DateInterval(sprintf('PT%sH%sM%sS', $hours, $minutes
 $data_fim = clone $data_inicio;
 $data_fim->add($tempoServicoInterval)->format('H:i:s');
 
-$horario->setHorario_fim($data_fim->format('H:i:s'));
-$horario->setHorario_inicio($data_inicio->format('H:i:s'));
-$horario->setDia_semana($dia);
+//Tem o mesmo horario marcado, na mesma hora e no mesmo dia
+$buscarHorarioExistente = $horario->buscarHorario($dia, $data_inicio->format('H:i:s'), $data_fim->format('H:i:s'), $servico_profissional->getId_prof());
 
-$agenda->setId_servico_prof($servico_profissional->getId_servico_prof());
-$agenda->setCpf_cliente($_SESSION['cpf']);
+//Verifica se o horario inicio esta entre o horario inicio e horario fim de outra horario no mesmo dia
+$buscarHorarioQueEstaEmOutroServico = $horario->verificarHorario($dia, $data_inicio->format('H:i:s'), $servico_profissional->getId_prof());
 
-$horario->createHorarios();
-$agenda->setId_horario($horario->getId_horario());
-
-
-if($agenda->createAgendas()){
-    echo <<<HTML
-    <script>
-        alert('Agendamento realizado com sucesso!');
-        window.location.href='../view/home.php';
-    </script>
-HTML;
-}else{
+if($buscarHorarioExistente || $buscarHorarioQueEstaEmOutroServico){
     echo <<<HTML
         <script>
-            alert('Erro ao realizar agendamento!');
+            alert('Já existe um horário marcado esta hora!');
             window.location.href='../view/home.php';
         </script>
     HTML;
+} else {
+    $horario->setHorario_fim($data_fim->format('H:i:s'));
+    $horario->setHorario_inicio($data_inicio->format('H:i:s'));
+    $horario->setDia_semana($dia);
+    
+    $agenda->setId_servico_prof($servico_profissional->getId_servico_prof());
+    $agenda->setCpf_cliente($_SESSION['cpf']);
+    
+    $horario->createHorarios();
+    $agenda->setId_horario($horario->getId_horario());
+    
+    if($agenda->createAgendas()){
+        echo <<<HTML
+        <script>
+            alert('Agendamento realizado com sucesso!');
+            window.location.href='../view/home.php';
+        </script>
+    HTML;
+    }else{
+        echo <<<HTML
+            <script>
+                alert('Erro ao realizar agendamento!');
+                window.location.href='../view/home.php';
+            </script>
+        HTML;
+    }
 }
 
 
