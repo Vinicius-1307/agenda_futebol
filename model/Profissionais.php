@@ -94,6 +94,7 @@
 				$vetorProfissionais[$i]->setNome($linha->nome);
 				$vetorProfissionais[$i]->setInicio_atendimento($linha->inicio_atendimento);
 				$vetorProfissionais[$i]->setFim_atendimento($linha->fim_atendimento);
+                $vetorProfissionais[$i]->setEmail($linha->email);
 				
                 $i++;
             }
@@ -163,7 +164,6 @@
         public function setFim_atendimento($fim_atendimento) { 
             $this->fim_atendimento = $fim_atendimento; 
         }
-		
 
 		/**
 		 * Get the value of email
