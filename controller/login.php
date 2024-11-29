@@ -17,7 +17,7 @@ session_start();
 if($login){
     if($login->getIs_admin() == 1){
         $_SESSION['is_admin'] = 1;
-        return header('Location: ../view/administrador.html');
+        return header('Location: ../view/administrador.php');
     }
 
     $_SESSION['cpf'] = $login->getCpf();

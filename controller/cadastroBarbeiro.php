@@ -28,7 +28,7 @@ if($profissional->createProfissionais()){
     echo <<<HTML
         <script>
             alert('Profissional cadastrado com sucesso!');
-            window.location.href='../view/administrador.html';
+            window.location.href='../view/administrador.php';
         </script>
     HTML;}
 

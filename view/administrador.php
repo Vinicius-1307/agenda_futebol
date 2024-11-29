@@ -36,6 +36,8 @@
         </div>
     </nav>
 
+    
+
     <h2 class="tituloHome mt-3">Home</h2>
 
     <div class="footer mt-5 p-4 text-white text-center">

@@ -42,7 +42,7 @@ if ($servico->createServicos()) {
         echo <<<HTML
             <script>
                 alert('Serviço cadastrado!');
-                window.location.href='../view/administrador.html';
+                window.location.href='../view/administrador.php';
             </script>
         HTML;
 

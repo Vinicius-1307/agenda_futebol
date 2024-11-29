@@ -24,7 +24,7 @@
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <?php session_start(); $rota = $_SESSION['is_admin'] == 1 ?  "<a class='nav-link' href='../view/administrador.html'>Home</a>" : "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";?>
+                    <?php session_start(); $rota = $_SESSION['is_admin'] == 1 ?  "<a class='nav-link' href='../view/administrador.php'>Home</a>" : "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";?>
                     <?php echo $rota ?>
                 </li>
                 <li class="nav-item">
