@@ -22,10 +22,19 @@
             return $stmt->execute();
         }
 		
-        public function deleteServico_profissional() {
-            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Servico_profissional WHERE id_servico_prof = ?");
-            $stmt->bind_param("i", $this->id_servico_prof);
-            return $stmt->execute();
+        public function deleteServico_profissional(array $ids) {
+            if (!empty($ids)) {
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            
+                $query = "DELETE FROM Servico_profissional WHERE id_servico_prof IN ($placeholders)";
+                $stmt = $this->banco->getConexao()->prepare($query);
+            
+                $types = str_repeat('i', count($ids));
+            
+                $stmt->bind_param($types, ...$ids);
+            
+                return $stmt->execute();
+            }
         }
 		
         public function updateServico_profissional() {

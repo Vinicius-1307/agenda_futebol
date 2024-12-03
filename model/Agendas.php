@@ -27,6 +27,36 @@
             $stmt->bind_param("i", $this->id);
             return $stmt->execute();
         }
+
+        public function deleteServico_profissional(array $ids) {
+            if (!empty($ids)) {
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            
+                $query = "DELETE FROM Servico_profissional WHERE id_servico_prof IN ($placeholders)";
+                $stmt = $this->banco->getConexao()->prepare($query);
+            
+                $types = str_repeat('i', count($ids));
+            
+                $stmt->bind_param($types, ...$ids);
+            
+                return $stmt->execute();
+            }
+        }
+
+        public function deleteAgendasArray(array $ids) {
+            if (!empty($ids)) {
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            
+                $query = "DELETE FROM Agendas WHERE id_servico_prof IN ($placeholders)";
+                $stmt = $this->banco->getConexao()->prepare($query);
+            
+                $types = str_repeat('i', count($ids));
+            
+                $stmt->bind_param($types, ...$ids);
+            
+                return $stmt->execute();
+            }
+        }
 		
         public function updateAgendas() {
             $stmt = $this->banco->getConexao()->prepare("UPDATE Agendas SET cpf_cliente=?,id_horario=?,id_servico_prof=? WHERE id = ?");
@@ -74,6 +104,10 @@
 
         public function agendaHorarioBarbeiro($idsServicosProf)
         {
+            if (empty($idsServicosProf)) {
+                return [];
+            }
+        
             $placeholders = implode(',', array_fill(0, count($idsServicosProf), '?'));
         
             $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Agendas a INNER JOIN Horarios h ON a.id = h.id_horario WHERE a.id_servico_prof IN ($placeholders)");
@@ -83,21 +117,21 @@
         
             $stmt->execute();
             $result = $stmt->get_result();
-            $vetorAgendas = array();
-            $i = 0;
+        
+            $vetorAgendas = [];
             while ($linha = mysqli_fetch_object($result)) {
-                $vetorAgendas[$i] = new Agendas();
-                $vetorAgendas[$i]->setId($linha->id);
-                $vetorAgendas[$i]->setCpf_cliente($linha->cpf_cliente);
-                $vetorAgendas[$i]->setId_horario($linha->id_horario);
-                $vetorAgendas[$i]->setId_servico_prof($linha->id_servico_prof);
-                $vetorAgendas[$i]->setHorario_inicio($linha->horario_inicio);
-                $vetorAgendas[$i]->setHorario_fim($linha->horario_fim);
-                $vetorAgendas[$i]->setDia_semana($linha->dia_semana);
-                $i++;
+                $agenda = new Agendas();
+                $agenda->setId($linha->id);
+                $agenda->setCpf_cliente($linha->cpf_cliente);
+                $agenda->setId_horario($linha->id_horario);
+                $agenda->setId_servico_prof($linha->id_servico_prof);
+                $agenda->setHorario_inicio($linha->horario_inicio);
+                $agenda->setHorario_fim($linha->horario_fim);
+                $agenda->setDia_semana($linha->dia_semana);
+                $vetorAgendas[] = $agenda;
             }
             return $vetorAgendas;
-        }
+        }  
 		
         public function readAll() {
             $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Agendas");
