@@ -51,7 +51,11 @@
             
             $tempoServico = DateTime::createFromFormat('H:i:s', $servico->getTempo_servico());
             $tempoFormatado = $tempoServico ? $tempoServico->format('H:i:s') : '00:00:00';
-            $caminhoImagem = $fotoServico ?? '../uploads/img/sem-imagem.jpg';
+            
+            $caminhoImagem = '../uploads/img/sem-imagem.jpg';
+            if ($fotoServico && file_exists($fotoServico)) {
+                $caminhoImagem = $fotoServico;
+            }
             
             $html = <<<HTML
                 <div class='col-md-4 d-flex mb-4'>
