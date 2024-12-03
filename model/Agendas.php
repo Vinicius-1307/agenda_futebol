@@ -28,6 +28,12 @@
             return $stmt->execute();
         }
 
+        public function deleteAgendaIdHorario() {
+            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Agendas WHERE id_horario = ?");
+            $stmt->bind_param("i", $this->id_horario);
+            return $stmt->execute();
+        }
+
         public function deleteServico_profissional(array $ids) {
             if (!empty($ids)) {
                 $placeholders = implode(',', array_fill(0, count($ids), '?'));
