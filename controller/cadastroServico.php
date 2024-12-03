@@ -39,12 +39,21 @@ if ($servico->createServicos()) {
             }
         }
 
-        echo <<<HTML
-            <script>
-                alert('Serviço cadastrado!');
-                window.location.href='../view/administrador.php';
-            </script>
-        HTML;
+        if($_SESSION['is_admin'] == 1){
+            echo <<<HTML
+                <script>
+                    alert('Serviço cadastrado!');
+                    window.location.href='../view/administrador.php';
+                </script>
+            HTML;
+        } else {
+            echo <<<HTML
+                <script>
+                    alert('Serviço cadastrado!');
+                    window.location.href='../view/agendasBarbeiro.php';
+                </script>
+            HTML;
+        }
 
     } else {
         echo <<<HTML
