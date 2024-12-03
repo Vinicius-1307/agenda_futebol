@@ -49,7 +49,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col" class="text-center">#</th>
                     <th scope="col" class="text-center">Profissional</th>
                     <th scope="col" class="text-center">Cliente</th>
                     <th scope="col" class="text-center">Serviço</th>
@@ -63,7 +62,6 @@
                     <?php $dadosServicoProfissional = $servicoProfissional->pegarProfissionalServico($horario->getId_servico_prof()) ?>
                     <?php $nomeCliente = $cliente->readClientes($horario->getCpf_cliente())->getNome() ?>
                     <tr>
-                        <th scope="row" class="text-center"><?= $index + 1 ?></th>
                         <td class="text-center"><?php echo $_SESSION['nomeBarbeiro'] ?></td>
                         <td class="text-center"><?php echo $nomeCliente ?></td>
                         <td class="text-center"><?php echo $dadosServicoProfissional->getServico() ?></td>

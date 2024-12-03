@@ -46,20 +46,19 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col" class="text-center">#</th>
                     <th scope="col" class="text-center">Cliente</th>
                     <th scope="col" class="text-center">Profissional</th>
                     <th scope="col" class="text-center">Serviço</th>
                     <th scope="col" class="text-center">Dia</th>
                     <th scope="col" class="text-center">Horário Início</th>
                     <th scope="col" class="text-center">Horário Fim (previsto)</th>
+                    <th scope="col" class="text-center">Ação</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($horariosUsuario as $index => $horario) : ?>
                     <?php $dadosServicoProfissional = $servicoProfissional->pegarProfissionalServico($horario->getId_servico_prof()) ?>
                     <tr>
-                        <th scope="row" class="text-center"><?= $index + 1 ?></th>
                         <td class="text-center"><?php echo $_SESSION['nomeCliente'] ?></td>
                         <td class="text-center"><?php echo $dadosServicoProfissional->getProfissional() ?></td>
                         <td class="text-center"><?php echo $dadosServicoProfissional->getServico() ?></td>
@@ -71,6 +70,7 @@
                         </td>
                         <td class="text-center"><?php echo $horario->getHorario_inicio() ?></td>
                         <td class="text-center"><?php echo $horario->getHorario_fim() ?></td>
+                        <td class="text-center"><button type="button" class="btn btn-outline-danger">Cancelar</button></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
