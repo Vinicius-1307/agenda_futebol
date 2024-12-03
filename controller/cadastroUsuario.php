@@ -22,7 +22,7 @@ if($cliente->createClientes()){
     $_SESSION['cpf'] = $cliente->getCpf();
     header('Location: ../view/home.php');
 }else{
-    header('Location: ../view/cadastroBarbeiro.html');
+    header('Location: ../view/cadastroUsuario.html');
 }
 
 ?>
