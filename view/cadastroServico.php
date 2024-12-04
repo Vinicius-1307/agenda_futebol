@@ -25,11 +25,11 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <?php 
-                session_start(); 
-                $rota = $_SESSION['is_admin'] == 1 ?  
-                    "<a class='nav-link' href='../view/administrador.php'>Home</a>" : 
-                    "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";
-                echo $rota; 
+                    session_start(); 
+                    $rota = $_SESSION['is_admin'] == 1 ?  
+                        "<a class='nav-link' href='../view/administrador.php'>Home</a>" : 
+                        "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";
+                    echo $rota; 
                 ?>
             </li>
             
@@ -49,7 +49,6 @@
     </div>
 </nav>
 
-
     <h2 class="tituloHome mt-3">Cadastro Serviço</h2>
 
     <div class="container formulario">
@@ -66,7 +65,6 @@
                         session_start();
                         include_once('../model/Profissionais.php');
                         if($_SESSION['is_admin'] == 1){
-                            var_dump('ta entrando no if');
                             $profissional = new Profissionais();
                             foreach ($profissional->readAll() as $prof) {
                                 echo '<option value="' . ($prof->getId_prof()) . '">' . htmlspecialchars($prof->getNome()) . '</option>';
