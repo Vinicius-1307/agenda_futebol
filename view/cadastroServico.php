@@ -21,18 +21,34 @@
     </div>
 
     <nav class="navbar navbar-expand-sm navbar-dark">
-        <div class="container-fluid justify-content-center">
-            <ul class="navbar-nav">
+    <div class="container-fluid justify-content-center">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <?php 
+                session_start(); 
+                $rota = $_SESSION['is_admin'] == 1 ?  
+                    "<a class='nav-link' href='../view/administrador.php'>Home</a>" : 
+                    "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";
+                echo $rota; 
+                ?>
+            </li>
+            
+            <?php if ($_SESSION['is_admin'] == 1): ?>
                 <li class="nav-item">
-                    <?php session_start(); $rota = $_SESSION['is_admin'] == 1 ?  "<a class='nav-link' href='../view/administrador.php'>Home</a>" : "<a class='nav-link' href='../view/agendasBarbeiro.php'>Meus horários</a>";?>
-                    <?php echo $rota ?>
+                    <a class="nav-link" href="../view/cadastroBarbeiro.html">Cadastrar Barbeiro</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/login.html">Sair</a>
+                    <a class="nav-link" href="../view/servicosAdm.php">Serviços</a>
                 </li>
-            </ul>
-        </div>
-    </nav>
+            <?php endif; ?>
+
+            <li class="nav-item">
+                <a class="nav-link" href="../view/login.html">Sair</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 
     <h2 class="tituloHome mt-3">Cadastro Serviço</h2>
 
