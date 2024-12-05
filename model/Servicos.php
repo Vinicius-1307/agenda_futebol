@@ -33,19 +33,35 @@
 		
         public function updateServicos() {
             $stmt = $this->banco->getConexao()->prepare("UPDATE Servicos SET nome_servico=? WHERE id_servico = ?");
-            $stmt->bind_param("sii", $this->nome_servico, $this->id_servico );
-            $stmt->execute();
+            $stmt->bind_param("si", $this->nome_servico, $this->id_servico );
+            return $stmt->execute();
         }
 		
         public function readServicos($id_servico) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servicos WHERE id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("
+                SELECT s.id_servico, 
+                    s.nome_servico, 
+                    sp.preco_servico, 
+                    fs.nome_arquivo, 
+                    sp.tempo_servico
+                FROM 
+                    Servicos s
+                INNER JOIN 
+                    servico_profissional sp ON sp.id_servico = s.id_servico
+                LEFT JOIN 
+                    fotos_servicos fs ON s.id_servico = fs.id_servico
+                WHERE 
+                    s.id_servico = ?
+            ");
             $stmt->bind_param("i", $id_servico);
             $stmt->execute();
             $resultado = $stmt->get_result();
-            while ($linha = $resultado->fetch_object()) { 
+            while ($linha = $resultado->fetch_object()) {
                 $this->setId_servico($linha->id_servico);
 				$this->setNome_servico($linha->nome_servico);
-				
+                $this->setPreco_servico($linha->preco_servico);
+                $this->setFoto_servico($linha->nome_arquivo);
+                $this->setTempo_servico($linha->tempo_servico);
             }
             return $this;     
         }
@@ -102,6 +118,43 @@
                 $servicos[$i]->setTempo_servico($linha->tempo_servico);
                 $i++;
             }
+            return $servicos;
+        }
+
+        public function servicosCompletos()
+        {
+            $stmt = $this->banco->getConexao()->prepare("
+                SELECT s.id_servico, 
+                    s.nome_servico, 
+                    sp.preco_servico, 
+                    fs.nome_arquivo AS foto_servico, 
+                    sp.tempo_servico
+                FROM 
+                    Servicos s
+                INNER JOIN 
+                    servico_profissional sp ON sp.id_servico = s.id_servico
+                LEFT JOIN 
+                    fotos_servicos fs ON s.id_servico = fs.id_servico
+                GROUP BY 
+                    s.id_servico, s.nome_servico, sp.preco_servico, sp.tempo_servico, fs.nome_arquivo
+            ");
+            
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            $servicos = array();
+        
+            while ($linha = $resultado->fetch_object()) { 
+                $servico = new Servicos();
+                
+                $servico->setId_servico($linha->id_servico ?? null);
+                $servico->setNome_servico($linha->nome_servico ?? '');
+                $servico->setPreco_servico($linha->preco_servico ?? 0);
+                $servico->setFoto_servico($linha->foto_servico ?? null);
+                $servico->setTempo_servico($linha->tempo_servico ?? '00:00:00');
+                
+                $servicos[] = $servico;
+            }
+            
             return $servicos;
         }
 		

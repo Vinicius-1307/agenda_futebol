@@ -26,6 +26,9 @@
                     <a class="nav-link" href="./cadastroServico.php">Cadastrar Serviço</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="./servicosBarbeiro.php">Serviços</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="../view/login.html">Sair</a>
                 </li>
             </ul>

@@ -38,9 +38,9 @@
         }
 		
         public function updateServico_profissional() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Servico_profissional SET id_servico=?,id_prof=?,preco_servico=?,tempo_servico=? WHERE id_servico_prof = ?");
-            $stmt->bind_param("iii", $this->id_servico, $this->id_prof, $this->preco_servico, $this->tempo_servico, $this->id_servico_prof);
-            $stmt->execute();
+            $stmt = $this->banco->getConexao()->prepare("UPDATE Servico_profissional SET id_servico=?,preco_servico=?,tempo_servico=? WHERE id_servico = ?");
+            $stmt->bind_param("issi", $this->id_servico, $this->preco_servico, $this->tempo_servico, $this->id_servico);
+            return $stmt->execute();
         }
 		
         public function readServico_profissional($id_servico_prof) {

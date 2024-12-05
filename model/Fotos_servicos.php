@@ -25,9 +25,9 @@
         }
 		
         public function updateFotos_servicos() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Fotos_servicos SET nome_arquivo=?,id_servico=? WHERE id_foto = ?");
-            $stmt->bind_param("sii", $this->nome_arquivo, $this->id_servico, $this->id_foto );
-            $stmt->execute();
+            $stmt = $this->banco->getConexao()->prepare("UPDATE Fotos_servicos SET nome_arquivo=?,id_servico=? WHERE id_servico = ?");
+            $stmt->bind_param("sii", $this->nome_arquivo, $this->id_servico, $this->id_servico );
+            return $stmt->execute();
         }
 		
         public function readFotos_servicos($id_foto) {
@@ -42,6 +42,19 @@
 				
             }
             return $this;     
+        }
+
+        public function existeFotoServico($id_servico) {
+            $stmt = $this->banco->getConexao()->prepare("SELECT COUNT(*) AS foto_count FROM Fotos_servicos WHERE id_servico = ?");
+            $stmt->bind_param("i", $id_servico);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            
+            if ($resultado && $linha = $resultado->fetch_object()) {
+                return $linha->foto_count > 0;
+            }
+            
+            return false;
         }
 		
         public function readAll() {

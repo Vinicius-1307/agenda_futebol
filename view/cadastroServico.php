@@ -32,6 +32,14 @@
                     echo $rota; 
                 ?>
             </li>
+            <li class="nav-item">
+                <?php
+                    $rota = $_SESSION['is_admin'] == 1 ?  
+                        "<a class='nav-link' href='../view/servicosAdm.php'>Serviços</a>" : 
+                        "<a class='nav-link' href='../view/servicosBarbeiro.php'>Serviços</a>";
+                    echo $rota; 
+                ?>
+            </li>
             
             <?php if ($_SESSION['is_admin'] == 1): ?>
                 <li class="nav-item">
