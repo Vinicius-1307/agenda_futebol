@@ -4,6 +4,8 @@ include_once '../model/Servicos.php';
 include_once '../model/Servico_profissional.php';
 include_once '../model/Fotos_servicos.php';
 
+session_start();
+
 $nomeServico = $_POST['nomeServico'];
 $preco = $_POST['preco'];
 $tempo = $_POST['tempo'];
