@@ -15,29 +15,29 @@
 		private $banco;
 		
         function __construct() {
-            $this->banco = new BancoTcc_rodrigo();
+            $this->banco = new BancoAgendaFutebol();
         }
 		
         public function createProfissionais() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Profissionais (id_prof, cpf, rg, telefone, ano_cadastro, nome, inicio_atendimento, fim_atendimento, email, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO profissionais (id_prof, cpf, rg, telefone, ano_cadastro, nome, inicio_atendimento, fim_atendimento, email, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("isssssssss", $this->id_prof, $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento, $this->email, $this->senha);
             return $stmt->execute();
         }
 		
         public function deleteProfissionais() {
-            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Profissionais WHERE id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("DELETE FROM profissionais WHERE id_prof = ?");
             $stmt->bind_param("i", $this->id_prof);
             return $stmt->execute();
         }
 		
         public function updateProfissionais() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Profissionais SET cpf=?,rg=?,telefone=?,ano_cadastro=?,nome=?,inicio_atendimento=?,fim_atendimento=? WHERE id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("UPDATE profissionais SET cpf=?,rg=?,telefone=?,ano_cadastro=?,nome=?,inicio_atendimento=?,fim_atendimento=? WHERE id_prof = ?");
             $stmt->bind_param("sssssi", $this->cpf, $this->rg, $this->telefone, $this->ano_cadastro, $this->nome, $this->inicio_atendimento, $this->fim_atendimento, $this->id_prof );
             $stmt->execute();
         }
 
         public function login($email, $senha){
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Profissionais WHERE email = ? AND senha = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM profissionais WHERE email = ? AND senha = ?");
             $stmt->bind_param("ss", $email, $senha);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -60,7 +60,7 @@
             return $this;  
         }
         public function readProfissionais($id_prof) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Profissionais WHERE id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM profissionais WHERE id_prof = ?");
             $stmt->bind_param("i", $id_prof);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -79,7 +79,7 @@
         }
 		
         public function readAll() {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Profissionais");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM profissionais");
             $stmt->execute();
             $result = $stmt->get_result();
             $vetorProfissionais = array();

@@ -35,13 +35,14 @@
     <h2 class="tituloHome mt-4 mb-4">Agendas Marcadas</h2>
 
     <?php
-        session_start();
-        require_once '../model/Agendas.php';
-        require_once '../model/Servico_profissional.php';
+    session_start();
+    require_once '../model/Agendas.php';
+    require_once '../model/Servico_profissional.php';
 
-        $agenda = new Agendas();
-        $servicoProfissional = new Servico_profissional();
-        $horariosUsuario = $agenda->agendaHorarioUsuario($_SESSION['cpf']);
+    $agenda = new Agendas();
+    $servicoProfissional = new Servico_profissional();
+    $cpf = $_SESSION['cpf'] ?? null;
+    $horariosUsuario = $agenda->agendaHorarioUsuario($cpf);
     ?>
 
     <div class="container mt-5">
@@ -65,9 +66,9 @@
                         <td class="text-center"><?php echo $dadosServicoProfissional->getProfissional() ?></td>
                         <td class="text-center"><?php echo $dadosServicoProfissional->getServico() ?></td>
                         <td class="text-center">
-                            <?php 
-                                $data = DateTime::createFromFormat('Y-m-d', $horario->getDia_semana());
-                                echo $data ? $data->format('d/m/Y') : ''; 
+                            <?php
+                            $data = DateTime::createFromFormat('Y-m-d', $horario->getDia_semana());
+                            echo $data ? $data->format('d/m/Y') : '';
                             ?>
                         </td>
                         <td class="text-center"><?php echo $horario->getHorario_inicio() ?></td>

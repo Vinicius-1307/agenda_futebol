@@ -9,29 +9,29 @@
 		private $banco;
 		
         function __construct() {
-            $this->banco = new BancoTcc_rodrigo();
+            $this->banco = new BancoAgendaFutebol();
         }
 		
         public function createFotos_servicos() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Fotos_servicos (id_foto, nome_arquivo, id_servico) VALUES (?, ?, ?)");
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO fotos_servicos (id_foto, nome_arquivo, id_servico) VALUES (?, ?, ?)");
             $stmt->bind_param("isi", $this->id_foto, $this->nome_arquivo, $this->id_servico);
             return $stmt->execute();
         }
 		
         public function deleteFotos_servicos() {
-            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Fotos_servicos WHERE id_foto = ?");
+            $stmt = $this->banco->getConexao()->prepare("DELETE FROM fotos_servicos WHERE id_foto = ?");
             $stmt->bind_param("i", $this->id_foto);
             return $stmt->execute();
         }
 		
         public function updateFotos_servicos() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Fotos_servicos SET nome_arquivo=?,id_servico=? WHERE id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("UPDATE fotos_servicos SET nome_arquivo=?,id_servico=? WHERE id_servico = ?");
             $stmt->bind_param("sii", $this->nome_arquivo, $this->id_servico, $this->id_servico );
             return $stmt->execute();
         }
 		
         public function readFotos_servicos($id_foto) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Fotos_servicos WHERE id_foto = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM fotos_servicos WHERE id_foto = ?");
             $stmt->bind_param("i", $id_foto);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -45,7 +45,7 @@
         }
 
         public function existeFotoServico($id_servico) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT COUNT(*) AS foto_count FROM Fotos_servicos WHERE id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT COUNT(*) AS foto_count FROM fotos_servicos WHERE id_servico = ?");
             $stmt->bind_param("i", $id_servico);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -58,7 +58,7 @@
         }
 		
         public function readAll() {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Fotos_servicos");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM fotos_servicos");
             $stmt->execute();
             $result = $stmt->get_result();
             $vetorFotos_servicos = array();

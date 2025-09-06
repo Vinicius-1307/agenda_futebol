@@ -13,11 +13,11 @@
 		private $banco;
 		
         function __construct() {
-            $this->banco = new BancoTcc_rodrigo();
+            $this->banco = new BancoAgendaFutebol();
         }
 		
         public function createServico_profissional() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Servico_profissional (id_servico_prof, id_servico, id_prof, preco_servico, tempo_servico) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO servico_profissional (id_servico_prof, id_servico, id_prof, preco_servico, tempo_servico) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("iiiss", $this->id_servico_prof, $this->id_servico, $this->id_prof, $this->preco_servico, $this->tempo_servico);
             return $stmt->execute();
         }
@@ -26,7 +26,7 @@
             if (!empty($ids)) {
                 $placeholders = implode(',', array_fill(0, count($ids), '?'));
             
-                $query = "DELETE FROM Servico_profissional WHERE id_servico_prof IN ($placeholders)";
+                $query = "DELETE FROM servico_profissional WHERE id_servico_prof IN ($placeholders)";
                 $stmt = $this->banco->getConexao()->prepare($query);
             
                 $types = str_repeat('i', count($ids));
@@ -38,13 +38,13 @@
         }
 		
         public function updateServico_profissional() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Servico_profissional SET id_servico=?,preco_servico=?,tempo_servico=? WHERE id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("UPDATE servico_profissional SET id_servico=?,preco_servico=?,tempo_servico=? WHERE id_servico = ?");
             $stmt->bind_param("issi", $this->id_servico, $this->preco_servico, $this->tempo_servico, $this->id_servico);
             return $stmt->execute();
         }
 		
         public function readServico_profissional($id_servico_prof) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servico_profissional WHERE id_servico_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servico_profissional WHERE id_servico_prof = ?");
             $stmt->bind_param("i", $id_servico_prof);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -60,7 +60,7 @@
         }
 		
         public function readAll() {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servico_profissional");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servico_profissional");
             $stmt->execute();
             $result = $stmt->get_result();
             $vetorServico_profissional = array();
@@ -79,7 +79,7 @@
         }
 
         public function pegarTempoServico($id_servico) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servico_profissional sp INNER JOIN Servicos s ON sp.id_servico = s.id_servico WHERE sp.id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servico_profissional sp INNER JOIN servicos s ON sp.id_servico = s.id_servico WHERE sp.id_servico = ?");
             $stmt->bind_param("i", $id_servico);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -94,7 +94,7 @@
         }
 
         public function pegarProfissionalServico($id_servico_prof) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servico_profissional sp INNER JOIN Servicos s ON sp.id_servico = s.id_servico INNER JOIN Profissionais p ON sp.id_prof = p.id_prof WHERE sp.id_servico_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servico_profissional sp INNER JOIN servicos s ON sp.id_servico = s.id_servico INNER JOIN profissionais p ON sp.id_prof = p.id_prof WHERE sp.id_servico_prof = ?");
             $stmt->bind_param("i", $id_servico_prof);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -106,7 +106,7 @@
         }
 
         public function pegarServicosProfissional($id_prof) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT sp.id_servico_prof FROM Servico_profissional sp INNER JOIN Servicos s ON sp.id_servico = s.id_servico WHERE sp.id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT sp.id_servico_prof FROM servico_profissional sp INNER JOIN servicos s ON sp.id_servico = s.id_servico WHERE sp.id_prof = ?");
             $stmt->bind_param("i", $id_prof);
             $stmt->execute();
             $result = $stmt->get_result();

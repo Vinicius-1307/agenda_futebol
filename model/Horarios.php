@@ -10,11 +10,11 @@
 		private $banco;
 		
         function __construct() {
-            $this->banco = new BancoTcc_rodrigo();
+            $this->banco = new BancoAgendaFutebol();
         }
 		
         public function createHorarios() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Horarios (id_horario, dia_semana, horario_inicio, horario_fim) VALUES (?, ?, ?, ?)");
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO horarios (id_horario, dia_semana, horario_inicio, horario_fim) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("isss", $this->id_horario, $this->dia_semana, $this->horario_inicio, $this->horario_fim);
             $horario = $stmt->execute();
             $id_horario = $this->banco->getConexao()->insert_id;
@@ -23,19 +23,19 @@
         }
 		
         public function deleteHorarios() {
-            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Horarios WHERE id_horario = ?");
+            $stmt = $this->banco->getConexao()->prepare("DELETE FROM horarios WHERE id_horario = ?");
             $stmt->bind_param("i", $this->id_horario);
             return $stmt->execute();
         }
 		
         public function updateHorarios() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Horarios SET dia_semana=?,horario_inicio=?,horario_fim=? WHERE id_horario = ?");
+            $stmt = $this->banco->getConexao()->prepare("UPDATE horarios SET dia_semana=?,horario_inicio=?,horario_fim=? WHERE id_horario = ?");
             $stmt->bind_param("i", $this->dia_semana, $this->horario_inicio, $this->horario_fim, $this->id_horario );
             $stmt->execute();
         }
 		
         public function readHorarios($id_horario) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Horarios WHERE id_horario = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM horarios WHERE id_horario = ?");
             $stmt->bind_param("i", $id_horario);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -50,7 +50,7 @@
         }
 
         public function buscarHorario($dia_semana, $horario_inicio, $horario_fim, $id_profissional) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT 1 FROM Horarios h INNER JOIN Agendas a ON h.id_horario = a.id_horario INNER JOIN servico_profissional sp ON a.id_servico_prof = sp.id_servico_prof WHERE h.dia_semana = ? AND h.horario_inicio = ?  AND h.horario_fim = ?  AND sp.id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT 1 FROM horarios h INNER JOIN agendas a ON h.id_horario = a.id_horario INNER JOIN servico_profissional sp ON a.id_servico_prof = sp.id_servico_prof WHERE h.dia_semana = ? AND h.horario_inicio = ?  AND h.horario_fim = ?  AND sp.id_prof = ?");
             $stmt->bind_param("sssi", $dia_semana, $horario_inicio, $horario_fim, $id_profissional);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -59,7 +59,7 @@
         }
 
         public function verificarHorario($dia_semana, $horario_inicio, $id_profissional) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT 1 FROM Horarios h INNER JOIN Agendas a ON h.id_horario = a.id_horario INNER JOIN servico_profissional sp ON a.id_servico_prof = sp.id_servico_prof WHERE h.dia_semana = ? AND ? BETWEEN h.horario_inicio AND h.horario_fim AND sp.id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT 1 FROM horarios h INNER JOIN agendas a ON h.id_horario = a.id_horario INNER JOIN servico_profissional sp ON a.id_servico_prof = sp.id_servico_prof WHERE h.dia_semana = ? AND ? BETWEEN h.horario_inicio AND h.horario_fim AND sp.id_prof = ?");
             $stmt->bind_param("ssi", $dia_semana, $horario_inicio, $id_profissional);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -68,7 +68,7 @@
         }      
 		
         public function readAll() {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Horarios");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM horarios");
             $stmt->execute();
             $result = $stmt->get_result();
             $vetorHorarios = array();

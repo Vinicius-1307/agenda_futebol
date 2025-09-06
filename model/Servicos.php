@@ -11,11 +11,11 @@
 		private $banco;
 		
         function __construct() {
-            $this->banco = new BancoTcc_rodrigo();
+            $this->banco = new BancoAgendaFutebol();
         }
 		
         public function createServicos() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Servicos (id_servico, nome_servico) VALUES (?, ?)");
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO servicos (id_servico, nome_servico) VALUES (?, ?)");
             $stmt->bind_param("is", $this->id_servico, $this->nome_servico);
             $stmt->execute();
             $id_servico = $this->banco->getConexao()->insert_id;
@@ -26,13 +26,13 @@
         }
 		
         public function deleteServicos() {
-            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Servicos WHERE id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("DELETE FROM servicos WHERE id_servico = ?");
             $stmt->bind_param("i", $this->id_servico);
             return $stmt->execute();
         }
 		
         public function updateServicos() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Servicos SET nome_servico=? WHERE id_servico = ?");
+            $stmt = $this->banco->getConexao()->prepare("UPDATE servicos SET nome_servico=? WHERE id_servico = ?");
             $stmt->bind_param("si", $this->nome_servico, $this->id_servico );
             return $stmt->execute();
         }
@@ -45,7 +45,7 @@
                     fs.nome_arquivo, 
                     sp.tempo_servico
                 FROM 
-                    Servicos s
+                    servicos s
                 INNER JOIN 
                     servico_profissional sp ON sp.id_servico = s.id_servico
                 LEFT JOIN 
@@ -67,7 +67,7 @@
         }
 		
         public function readAll() {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servicos");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servicos");
             $stmt->execute();
             $result = $stmt->get_result();
             $vetorServicos = array();
@@ -84,7 +84,7 @@
         
         public function pegarServicosBarbeiro($id_prof)
         {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servicos s INNER JOIN servico_profissional sp ON sp.id_servico = s.id_servico WHERE sp.id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servicos s INNER JOIN servico_profissional sp ON sp.id_servico = s.id_servico WHERE sp.id_prof = ?");
             $stmt->bind_param("i", $id_prof);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -103,7 +103,7 @@
 
         public function pegarServicosCompletosBarbeiro($id_prof)
         {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Servicos s INNER JOIN servico_profissional sp ON sp.id_servico = s.id_servico LEFT JOIN fotos_servicos ON s.id_servico = fotos_servicos.id_servico WHERE sp.id_prof = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM servicos s INNER JOIN servico_profissional sp ON sp.id_servico = s.id_servico LEFT JOIN fotos_servicos ON s.id_servico = fotos_servicos.id_servico WHERE sp.id_prof = ?");
             $stmt->bind_param("i", $id_prof);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -130,7 +130,7 @@
                     fs.nome_arquivo AS foto_servico, 
                     sp.tempo_servico
                 FROM 
-                    Servicos s
+                    servicos s
                 INNER JOIN 
                     servico_profissional sp ON sp.id_servico = s.id_servico
                 LEFT JOIN 

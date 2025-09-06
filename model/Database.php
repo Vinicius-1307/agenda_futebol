@@ -1,10 +1,10 @@
 
 <?php
-    class BancoTcc_rodrigo {
+    class BancoAgendaFutebol {
         private $host = "127.0.0.1";
         private $user = "root";
         private $senha = "";
-        private $banco = "tcc_rodrigo";
+        private $banco = "agenda_futebol";
         private $porta = "3306";
         private $con=null;
         private function conectar(){

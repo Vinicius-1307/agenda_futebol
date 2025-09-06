@@ -11,29 +11,29 @@
         private $is_admin;
 		
         function __construct() {
-            $this->banco = new BancoTcc_rodrigo();
+            $this->banco = new BancoAgendaFutebol();
         }
 		
         public function createClientes() {
-            $stmt = $this->banco->getConexao()->prepare("INSERT INTO Clientes (cpf, nome, telefone, email, senha, is_admin) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $this->banco->getConexao()->prepare("INSERT INTO clientes (cpf, nome, telefone, email, senha, is_admin) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssssd", $this->cpf, $this->nome, $this->telefone, $this->email, $this->senha, $this->is_admin);
             return $stmt->execute();
         }
 		
         public function deleteClientes() {
-            $stmt = $this->banco->getConexao()->prepare("DELETE FROM Clientes WHERE cpf = ?");
+            $stmt = $this->banco->getConexao()->prepare("DELETE FROM clientes WHERE cpf = ?");
             $stmt->bind_param("s", $this->cpf);
             return $stmt->execute();
         }
 		
         public function updateClientes() {
-            $stmt = $this->banco->getConexao()->prepare("UPDATE Clientes SET nome=?, telefone=? WHERE cpf = ?");
+            $stmt = $this->banco->getConexao()->prepare("UPDATE clientes SET nome=?, telefone=? WHERE cpf = ?");
             $stmt->bind_param("sss", $this->nome, $this->telefone, $this->cpf );
             $stmt->execute();
         }
 
         public function login($email, $senha){
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Clientes WHERE email = ? AND senha = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM clientes WHERE email = ? AND senha = ?");
             $stmt->bind_param("ss", $email, $senha);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -53,7 +53,7 @@
             return $this;  
         }
         public function readClientes($cpf) {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Clientes WHERE cpf = ?");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM clientes WHERE cpf = ?");
             $stmt->bind_param("s", $cpf);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -69,7 +69,7 @@
         }
 		
         public function readAll() {
-            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM Clientes");
+            $stmt = $this->banco->getConexao()->prepare("SELECT * FROM clientes");
             $stmt->execute();
             $result = $stmt->get_result();
             $vetorClientes = array();
