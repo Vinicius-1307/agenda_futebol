@@ -9,21 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../public/js/cancelarAgendamento.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Cardoso Barber</title>
+    <title>FutAgenda</title>
 </head>
 
 <body>
-    <div class="fundoNav p-4 text-center">
-        <div class="top">
-            <img src="../public/images/image.png" height="200px" width="400px" alt="">
-        </div>
-    </div>
-
     <nav class="navbar navbar-expand-sm navbar-dark">
         <div class="container-fluid justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="./cadastroServico.php">Cadastrar Serviço</a>
+                    <a class="nav-link" href="./cadastroCampos.php">Cadastrar Campos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./servicosBarbeiro.php">Serviços</a>
@@ -35,59 +29,62 @@
         </div>
     </nav>
 
-    <h2 class="tituloHome mt-4 mb-4">Agendas Marcadas</h2>
+    <h2 class="tituloHome mt-4 mb-4">Horários Marcados</h2>
 
     <?php
-        session_start();
-        require_once '../model/Agendas.php';
-        require_once '../model/Servico_profissional.php';
-        require_once '../model/Clientes.php';
+    session_start();
+    require_once '../model/Agendas.php';
+    require_once '../model/Servico_profissional.php';
+    require_once '../model/Clientes.php';
 
-        $agenda = new Agendas();
-        $cliente = new Clientes();
-        $servicoProfissional = new Servico_profissional();
-        $idsServicosProf = $servicoProfissional->pegarServicosProfissional($_SESSION['id_prof']);
-        $horariosBarbeiro = $agenda->agendaHorarioBarbeiro($idsServicosProf);
+    $agenda = new Agendas();
+    $cliente = new Clientes();
+    $servicoProfissional = new Servico_profissional();
+    $idsServicosProf = $servicoProfissional->pegarServicosProfissional($_SESSION['id_prof']);
+    $horariosBarbeiro = $agenda->agendaHorarioBarbeiro($idsServicosProf);
     ?>
 
-    <div class="container mt-5">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-center">Profissional</th>
-                    <th scope="col" class="text-center">Cliente</th>
-                    <th scope="col" class="text-center">Serviço</th>
-                    <th scope="col" class="text-center">Dia</th>
-                    <th scope="col" class="text-center">Horário Início</th>
-                    <th scope="col" class="text-center">Horário Fim (previsto)</th>
-                    <th scope="col" class="text-center">Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($horariosBarbeiro as $index => $horario) : ?>
-                    <?php $dadosServicoProfissional = $servicoProfissional->pegarProfissionalServico($horario->getId_servico_prof()) ?>
-                    <?php $nomeCliente = $cliente->readClientes($horario->getCpf_cliente())->getNome() ?>
+    <div class="main-content">
+        <div class="container mt-5">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td class="text-center"><?php echo $_SESSION['nomeBarbeiro'] ?></td>
-                        <td class="text-center"><?php echo $nomeCliente ?></td>
-                        <td class="text-center"><?php echo $dadosServicoProfissional->getServico() ?></td>
-                        <td class="text-center">
-                            <?php 
-                                $data = DateTime::createFromFormat('Y-m-d', $horario->getDia_semana());
-                                echo $data ? $data->format('d/m/Y') : ''; 
-                            ?>
-                        </td>
-                        <td class="text-center"><?php echo $horario->getHorario_inicio() ?></td>
-                        <td class="text-center"><?php echo $horario->getHorario_fim() ?></td>
-                        <td class="text-center"><button onclick="cancelarAgendamento(<?php echo $horario->getId_horario() ?>)" type="button" class="btn btn-outline-danger">Cancelar</button></td>
+                        <th scope="col" class="text-center">Cliente</th>
+                        <th scope="col" class="text-center">Campo</th>
+                        <th scope="col" class="text-center">Dia</th>
+                        <th scope="col" class="text-center">Horário Início</th>
+                        <th scope="col" class="text-center">Horário Fim (previsto)</th>
+                        <th scope="col" class="text-center">Ação</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($horariosBarbeiro as $index => $horario) : ?>
+                        <?php $dadosServicoProfissional = $servicoProfissional->pegarProfissionalServico($horario->getId_servico_prof()) ?>
+                        <?php $nomeCliente = $cliente->readClientes($horario->getCpf_cliente())->getNome() ?>
+                        <tr>
+                            <td class="text-center"><?php echo $_SESSION['nomeBarbeiro'] ?></td>
+                            <td class="text-center"><?php echo $nomeCliente ?></td>
+                            <td class="text-center"><?php echo $dadosServicoProfissional ?></td>
+                            <td class="text-center">
+                                <?php
+                                $data = DateTime::createFromFormat('Y-m-d', $horario->getDia_semana());
+                                echo $data ? $data->format('d/m/Y') : '';
+                                ?>
+                            </td>
+                            <td class="text-center"><?php echo $horario->getHorario_inicio() ?></td>
+                            <td class="text-center"><?php echo $horario->getHorario_fim() ?></td>
+                            <td class="text-center">
+                                <button onclick="cancelarAgendamento(<?php echo $horario->getId_horario() ?>)" type="button" class="btn btn-outline-danger">Cancelar</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="footer mt-5 p-4 text-white text-center">
-        <p></p>
+        © 2025 FutAgenda
     </div>
 </body>
 

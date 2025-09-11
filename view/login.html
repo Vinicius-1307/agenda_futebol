@@ -10,13 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <title>Cardoso Barber</title>
+    <title>FutAgenda</title>
 </head>
 
 <body>
     <div class="fundoNav p-4 text-center">
         <div class="top">
-            <img src="../public/images/image.png" height="200px" width="400px" alt="">
+            <img src="../public/images/FutAgenda.png" height="250px" width="250px" alt="">
         </div>
     </div>
 
@@ -31,26 +31,27 @@
     </nav>
 
     <h2 class="tituloHome mt-3">Login</h2>
-
-    <div class="container formulario">
-        <form action="../controller/login.php" method="POST">
-            <div class="mb-3 mt-3">
-                <label for="email" class="form-label">E-mail:</label>
-                <input type="email" required class="form-control" id="email" placeholder="Digite seu e-mail" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="pwd" class="form-label">Senha:</label>
-                <input type="password" required class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-            <a href="../view/cadastroUsuario.html"><button type="button"
-                    class="btn btn-outline-success">Cadastre-se</button>
-            </a>
-        </form>
+    <div class="main-content">
+        <div class="container formulario">
+            <form action="../controller/login.php" method="POST">
+                <div class="mb-3 mt-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="email" required class="form-control" id="email" placeholder="Digite seu e-mail" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="pwd" class="form-label">Senha:</label>
+                    <input type="password" required class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="../view/cadastroUsuario.html"><button type="button"
+                        class="btn btn-outline-success">Cadastre-se</button>
+                </a>
+            </form>
+        </div>
     </div>
 
     <div class="footer mt-5 p-4 text-white text-center">
-        <p></p>
+        © 2025 FutAgenda
     </div>
 </body>
 

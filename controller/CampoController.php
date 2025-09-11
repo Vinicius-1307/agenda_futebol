@@ -6,10 +6,9 @@ include_once '../model/Fotos_servicos.php';
 
 session_start();
 
-$nomeServico = $_POST['nomeServico'];
+$nomeServico = $_POST['nomeCampo'];
 $preco = $_POST['preco'];
 $tempo = $_POST['tempo'];
-$idProfissional = $_POST['profissional'];
 
 $servico = new Servicos();
 $servicoProfissional = new Servico_profissional();

@@ -1,4 +1,4 @@
-.fundoNav{
+.fundoNav {
     background-color: #fef6e9;
     height: 250px;
 }
@@ -7,32 +7,67 @@
     color: black;
 
     span{
-        color: #254082;
+        color: #008000;
     }
 }
 
-.top{
+.top {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.navbar{
-    background-color: #254082;
+.navbar {
+    background-color: #34495E;
 }
 
-.footer{
-    background-color: #254082;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.formulario{
+.formulario {
     width:40%;
 }
 
-.tituloHome{
+.tituloHome {
     text-align: center;
-    color: #254082;
+    color: #008000;
+}
+
+.btn-salvar {
+    color: #fff;
+    background-color: #2ECC71;
+    width: 100px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-salvar:hover {
+    background-color: #27ae60;
+}
+
+/* Faz a página ocupar 100% da altura */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Faz o conteúdo ocupar o espaço restante */
+.main-content {
+    flex: 1;
+}
+
+/* Footer fixo no final */
+.footer {
+    background-color: #34495E; /* Exemplo de cor escura */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilos para o formulário */
+.form-label.required::after {
+    content: " *";
+    color: red;
 }
