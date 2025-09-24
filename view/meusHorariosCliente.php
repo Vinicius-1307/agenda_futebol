@@ -74,17 +74,17 @@
                                                 <select class="form-select mb-3" name="servico" aria-label="Default select example">
                                                     <option selected>Selecione o Serviço</option>
                                                     <?php
-                                                        include_once('../model/Servicos.php');
-                                                        include_once('../model/Servico_profissional.php');
-                                                        $s = new Servicos();
-                                                        $servicos = $s->pegarServicosBarbeiro($barbeiro->getId_prof());
-                                                        $inicioAtendimento = $barbeiro->getInicio_atendimento();
-                                                        $fimAtendimento = $barbeiro->getFim_atendimento();
-                                                        foreach ($servicos as $servico){
-                                                            $id_servico = $servico->getId_servico();
-                                                            $nomeServico = $servico->getNome_servico();
-                                                            echo "<option value='$id_servico'>$nomeServico</option>";
-                                                        }
+                                                    include_once('../model/Servicos.php');
+                                                    include_once('../model/Servico_profissional.php');
+                                                    $s = new Servicos();
+                                                    $servicos = $s->pegarServicosBarbeiro($barbeiro->getId_prof());
+                                                    $inicioAtendimento = $barbeiro->getInicio_atendimento();
+                                                    $fimAtendimento = $barbeiro->getFim_atendimento();
+                                                    foreach ($servicos as $servico) {
+                                                        $id_servico = $servico->getId_servico();
+                                                        $nomeServico = $servico->getNome_servico();
+                                                        echo "<option value='$id_servico'>$nomeServico</option>";
+                                                    }
                                                     ?>
                                                 </select>
                                                 <label for="diaCorte">Agende o dia:</label>

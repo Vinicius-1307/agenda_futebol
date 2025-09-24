@@ -3,7 +3,7 @@
     class BancoAgendaFutebol {
         private $host = "127.0.0.1";
         private $user = "root";
-        private $senha = "290325";
+        private $senha = "";
         private $banco = "agenda_futebol";
         private $porta = "3306";
         private $con=null;

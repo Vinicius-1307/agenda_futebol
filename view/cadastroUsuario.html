@@ -4,64 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>FutAgenda - Cadastro</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- CSS custom -->
     <link rel="stylesheet" href="../public/css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <title>FutAgenda</title>
 </head>
 
 <body>
-    <div class="fundoNav p-4 text-center">
-        <div class="top">
-            <img src="../public/images/image.png" height="200px" width="400px" alt="">
+    <!-- Navbar -->
+    <header class="fundoNav shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center h-100">
+            <div class="d-flex align-items-center gap-3">
+                <img src="../public/images/FutAgenda.png" width="80" height="80" alt="Logo FutAgenda"
+                    class="rounded-circle bg-white p-1">
+            </div>
         </div>
-    </div>
+    </header>
 
-    <nav class="navbar navbar-expand-sm navbar-dark">
-        <div class="container-fluid justify-content-center">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="../view/login.html">Login</a>
-                </li>
-            </ul>
+    <!-- Cadastro Form -->
+    <main class="main-content d-flex justify-content-center align-items-center">
+        <div class="card shadow-lg border-0 p-4 formulario rounded-4">
+            <h2 class="tituloHome fw-bold mb-4">Cadastro</h2>
+            <form action="../controller/cadastroUsuario.php" method="POST">
+                <div class="mb-3">
+                    <label for="nome" class="form-label fw-semibold">Nome</label>
+                    <input type="text" required class="form-control form-control-lg" id="nome"
+                        placeholder="Digite seu nome" name="nome">
+                </div>
+                <div class="mb-3">
+                    <label for="cpf" class="form-label fw-semibold">CPF</label>
+                    <input type="text" required class="form-control form-control-lg" id="cpf"
+                        placeholder="Digite seu CPF" name="cpf">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">E-mail</label>
+                    <input type="email" required class="form-control form-control-lg" id="email"
+                        placeholder="Digite seu e-mail" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="senha" class="form-label fw-semibold">Senha</label>
+                    <input type="password" required class="form-control form-control-lg" id="senha"
+                        placeholder="Digite sua senha" name="senha">
+                </div>
+                <div class="mb-3">
+                    <label for="telefone" class="form-label fw-semibold">Telefone</label>
+                    <input type="tel" required class="form-control form-control-lg" id="telefone"
+                        placeholder="Digite seu telefone" name="telefone">
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg px-4">Cadastrar</button>
+                    <a href="../view/login.html" class="btn btn-outline-success btn-lg px-4">Login</a>
+                </div>
+            </form>
         </div>
-    </nav>
+    </main>
 
-    <h2 class="tituloHome mt-3">Cadastro</h2>
-
-    <div class="container formulario">
-        <form action="../controller/cadastroUsuario.php" method="POST">
-            <div class="mb-3 mt-3">
-                <label for="nome" class="form-label">Nome: </label>
-                <input type="text" required class="form-control" id="nome" placeholder="Digite seu nome" name="nome">
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="cpf" class="form-label">CPF: </label>
-                <input type="text" required class="form-control" id="cpf" placeholder="Digite seu CPF" name="cpf">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">E-mail:</label>
-                <input type="email" required class="form-control" id="email" placeholder="Digite seu email" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="pwd" class="form-label">Senha:</label>
-                <input type="password" required class="form-control" id="senha" placeholder="Digite sua senha" name="senha">
-            </div>
-            <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone:</label>
-                <input type="number" required class="form-control" id="telefone" placeholder="Digite seu telefone" name="telefone">
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-            <a href="../view/login.html"><button type="button" class="btn btn-outline-success">Login</button>
-        </form>
-    </div>
-
-    <div class="footer mt-5 p-4 text-white text-center">
-        <p></p>
-    </div>
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        © 2025 FutAgenda - Todos os direitos reservados
+    </footer>
 </body>
 
 </html>

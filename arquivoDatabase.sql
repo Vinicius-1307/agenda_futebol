@@ -14,9 +14,20 @@ CREATE TABLE profissionais (
 	senha VARCHAR(45)
 );
 
-CREATE TABLE servicos (
-	id_servico INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	nome_servico VARCHAR(45) NOT NULL
+CREATE TABLE proprietarios (
+	id_prop INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cpf VARCHAR(45) NOT NULL,
+	rg VARCHAR(45) NOT NULL,
+	telefone VARCHAR(45) NOT NULL,
+	ano_cadastro YEAR NOT NULL,
+	nome VARCHAR(45) NOT NULL,
+	email VARCHAR(45),
+	senha VARCHAR(45)
+);
+
+CREATE TABLE campos (
+	id_campo INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	nome_campo VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE horarios (
@@ -35,11 +46,11 @@ CREATE TABLE clientes (
 	is_admin INT(11) NOT NULL
 );
 
-CREATE TABLE fotos_servicos (
+CREATE TABLE fotos_campos (
 	id_foto INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	nome_arquivo VARCHAR(45) NOT NULL,
-	id_servico INT(11) NOT NULL,
-	FOREIGN KEY (id_servico) REFERENCES servicos (id_servico)
+	id_campo INT(11) NOT NULL,
+	FOREIGN KEY (id_campo) REFERENCES campos (id_campo)
 );
 
 CREATE TABLE servico_profissional (
