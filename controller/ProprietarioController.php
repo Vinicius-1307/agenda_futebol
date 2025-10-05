@@ -1,5 +1,5 @@
 <?php
-require_once '../model/Proprietario.php';
+require_once '../model/Proprietarios.php';
 
 /**
  * Função para limpar os campos numéricos
@@ -34,12 +34,11 @@ if (!empty($erros)) {
 }
 
 // --- Montagem do objeto ---
-$proprietario = new Proprietario();
+$proprietario = new Proprietarios();
 $proprietario->setNome($nome);
 $proprietario->setCpf($cpf);
 $proprietario->setRg($rg);
 $proprietario->setTelefone($telefone);
-$proprietario->setAno_cadastro($ano);
 $proprietario->setEmail($email);
 $proprietario->setSenha($senha);
 

@@ -19,15 +19,17 @@ CREATE TABLE proprietarios (
 	cpf VARCHAR(45) NOT NULL,
 	rg VARCHAR(45) NOT NULL,
 	telefone VARCHAR(45) NOT NULL,
-	ano_cadastro YEAR NOT NULL,
 	nome VARCHAR(45) NOT NULL,
 	email VARCHAR(45),
 	senha VARCHAR(45)
 );
 
 CREATE TABLE campos (
-	id_campo INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	nome_campo VARCHAR(45) NOT NULL
+    id_campo INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(45) NOT NULL,
+    inicio_jogos VARCHAR(45) NOT NULL,
+    final_jogos VARCHAR(45) NOT NULL,
+    foto VARCHAR(255) NULL
 );
 
 CREATE TABLE horarios (
