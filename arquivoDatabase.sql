@@ -1,29 +1,6 @@
 CREATE DATABASE agenda_futebol;
 USE agenda_futebol;
 
-CREATE TABLE profissionais (
-	id_prof INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	cpf VARCHAR(45) NOT NULL,
-	rg VARCHAR(45) NOT NULL,
-	telefone VARCHAR(45) NOT NULL,
-	ano_cadastro YEAR NOT NULL,
-	nome VARCHAR(45) NOT NULL,
-	inicio_atendimento TIME NOT NULL,
-	fim_atendimento TIME NOT NULL,
-	email VARCHAR(45),
-	senha VARCHAR(45)
-);
-
-CREATE TABLE proprietarios (
-	id_prop INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	cpf VARCHAR(45) NOT NULL,
-	rg VARCHAR(45) NOT NULL,
-	telefone VARCHAR(45) NOT NULL,
-	nome VARCHAR(45) NOT NULL,
-	email VARCHAR(45),
-	senha VARCHAR(45)
-);
-
 CREATE TABLE clientes (
     id_cliente INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nome VARCHAR(100) NOT NULL,
