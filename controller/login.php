@@ -2,6 +2,7 @@
 
 include_once('../model/Clientes.php');
 include_once('../model/Profissionais.php');
+include_once('../utils/alert.php');
 
 $email = $_POST['email'];
 $senha = $_POST['senha'];
@@ -32,11 +33,6 @@ if($login){
     return header('Location: ../view/agendasBarbeiro.php');
 
 } else{
-    echo <<<HTML
-        <script>
-            alert('Usuário não encontrado!');
-            window.location.href='../view/login.html';
-        </script>
-    HTML;
+    sweetAlert('Erro', 'Usuário não encontrado!', 'error', '../view/login.html');
 }
 ?>

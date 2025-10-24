@@ -1,76 +1,36 @@
-<?php 
-
-include_once '../model/Servicos.php';
-include_once '../model/Servico_profissional.php';
-include_once '../model/Fotos_servicos.php';
+<?php
+include_once '../model/Campos.php';
+include_once '../model/Clientes.php';
+include_once('../utils/alert.php');
 
 session_start();
 
-$nomeServico = $_POST['nomeCampo'];
-$preco = $_POST['preco'];
-$tempo = $_POST['tempo'];
+$cliente = new Clientes();
 
-$servico = new Servicos();
-$servicoProfissional = new Servico_profissional();
-$fotosServicos = new Fotos_servicos();
+// Recebe dados do formulário
+$nome = $_POST['nome'];
+$inicio_operacao = $_POST['inicio_operacao'];
+$fim_operacao = $_POST['fim_operacao'];
+$duracao_slot = $_POST['duracao_slot'];
+$id_cliente = $_SESSION['id_cliente'];
+$preco_slot = $_POST['preco_slot'];
 
-$servico->setNome_servico($nomeServico);
-$servico->setPreco_servico($preco);
+// Instancia os modelos
+$campo = new Campos();
 
-if ($servico->createServicos()) {
-    $id_servico = $servico->getId_servico();
-    $servicoProfissional->setId_servico($id_servico);
-    $servicoProfissional->setTempo_servico($tempo);
-    $servicoProfissional->setPreco_servico($preco);
-    $servicoProfissional->setId_prof($idProfissional);
+// Define os valores no modelo principal
+$campo->setNome($nome);
+$campo->setInicio_operacao($inicio_operacao);
+$campo->setFim_operacao($fim_operacao);
+$campo->setDuracao_slot($duracao_slot);
+$campo->setPreco_slot($preco_slot);
+$campo->setId_cliente($id_cliente);
 
-    if ($servicoProfissional->createServico_profissional()) {
-        $fotosServicos->setId_servico($id_servico);
+// Salva o campo no banco
+if ($campo->createCampo()) {
+    $id_campo = $campo->getId_campo();
 
-        foreach ($_FILES['fotos']['name'] as $key => $name) {
-            if ($_FILES['fotos']['error'][$key] === UPLOAD_ERR_OK) {
-                $tmp_name = $_FILES['fotos']['tmp_name'][$key];
-                $upload_dir = '../uploads/img/';
-                $upload_file = $upload_dir . basename($name);
-                
-                if (move_uploaded_file($tmp_name, $upload_file)) {
-                    $fotosServicos->setNome_arquivo($upload_file);
-                    $fotosServicos->createFotos_servicos();
-                }
-            }
-        }
-
-        if($_SESSION['is_admin'] == 1){
-            echo <<<HTML
-                <script>
-                    alert('Serviço cadastrado!');
-                    window.location.href='../view/administrador.php';
-                </script>
-            HTML;
-        } else {
-            echo <<<HTML
-                <script>
-                    alert('Serviço cadastrado!');
-                    window.location.href='../view/agendasBarbeiro.php';
-                </script>
-            HTML;
-        }
-
-    } else {
-        echo <<<HTML
-            <script>
-                alert('Erro ao criar serviço!');
-                window.location.href='../view/cadastroServico.php';
-            </script>
-        HTML;
-    }
+    sweetAlert('Sucesso', 'Campo cadastrado com sucesso!', 'success', '../view/administrador.php');
 } else {
-    echo <<<HTML
-        <script>
-            alert('Erro ao criar serviço!');
-            window.location.href='../view/cadastroServico.php';
-        </script>
-    HTML;
+    sweetAlert('Erro', 'Erro ao cadastrar o campo!', 'error', '../view/cadastroCampo.php');
 }
-
-?>

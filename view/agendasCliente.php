@@ -12,7 +12,7 @@
 
     <!-- jQuery e JS custom -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../public/js/cancelarAgendamento.js"></script>
+    <script src="../public/js/cancelarReserva.js"></script>
 
     <!-- CSS custom -->
     <link rel="stylesheet" href="../public/css/style.css">
@@ -45,13 +45,17 @@
 
         <?php
         session_start();
-        require_once '../model/Agendas.php';
-        require_once '../model/Servico_profissional.php';
+        require_once '../model/Reservas.php';
 
-        $agenda = new Agendas();
-        $servicoProfissional = new Servico_profissional();
-        $cpf = $_SESSION['cpf'] ?? null;
-        $horariosUsuario = $agenda->agendaHorarioUsuario($cpf);
+        $reservas = new Reservas();
+        $id_cliente = $_SESSION['id_cliente'] ?? null;
+
+        if (!$id_cliente) {
+            header("Location: ../view/login.html");
+            exit;
+        }
+
+        $listaReservas = $reservas->getReservasByCliente($id_cliente);
         ?>
 
         <div class="card shadow-lg border-0 rounded-4">
@@ -61,37 +65,41 @@
                         <thead class="table-primary">
                             <tr>
                                 <th class="text-center">Cliente</th>
-                                <th class="text-center">Profissional</th>
-                                <th class="text-center">Serviço</th>
+                                <th class="text-center">Campo</th>
                                 <th class="text-center">Dia</th>
                                 <th class="text-center">Início</th>
                                 <th class="text-center">Fim (previsto)</th>
+                                <th class="text-center">Valor</th>
                                 <th class="text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($horariosUsuario as $index => $horario) : ?>
-                                <?php $dadosServicoProfissional = $servicoProfissional->pegarProfissionalServico($horario->getId_servico_prof()) ?>
+                            <?php if (empty($listaReservas)): ?>
                                 <tr>
-                                    <td class="text-center"><?php echo $_SESSION['nomeCliente'] ?></td>
-                                    <td class="text-center"><?php echo $dadosServicoProfissional->getProfissional() ?></td>
-                                    <td class="text-center"><?php echo $dadosServicoProfissional->getServico() ?></td>
-                                    <td class="text-center">
-                                        <?php
-                                        $data = DateTime::createFromFormat('Y-m-d', $horario->getDia_semana());
-                                        echo $data ? $data->format('d/m/Y') : '';
-                                        ?>
-                                    </td>
-                                    <td class="text-center"><?php echo $horario->getHorario_inicio() ?></td>
-                                    <td class="text-center"><?php echo $horario->getHorario_fim() ?></td>
-                                    <td class="text-center">
-                                        <button onclick="cancelarAgendamento(<?php echo $horario->getId_horario() ?>)"
-                                            type="button" class="btn btn-outline-danger btn-sm px-3 rounded-3">
-                                            Cancelar
-                                        </button>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        Nenhuma reserva encontrada.
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php foreach ($listaReservas as $reserva): ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $_SESSION['nomeCliente'] ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($reserva['nome_campo']) ?></td>
+                                        <td class="text-center">
+                                            <?php echo date('d/m/Y', strtotime($reserva['data_reserva'])) ?>
+                                        </td>
+                                        <td class="text-center"><?php echo $reserva['hora_inicio'] ?></td>
+                                        <td class="text-center"><?php echo $reserva['hora_fim'] ?></td>
+                                        <td class="text-center">R$ <?php echo number_format($reserva['valor_total'], 2, ',', '.') ?></td>
+                                        <td class="text-center">
+                                            <button onclick="cancelarReserva(<?php echo $reserva['id_reserva'] ?>)"
+                                                type="button" class="btn btn-outline-danger btn-sm px-3 rounded-3">
+                                                Cancelar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

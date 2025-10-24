@@ -1,72 +1,92 @@
-<?php 
-
-include_once '../model/Horarios.php';
-include_once '../model/Servicos.php';
-include_once '../model/Profissionais.php';
-include_once '../model/Servico_profissional.php';
-include_once '../model/Agendas.php';
+<?php
+include_once '../model/Reservas.php';
+include_once '../model/Campos.php';
+include_once '../model/Clientes.php';
+include_once('../utils/alert.php');
 
 session_start();
 
-$timezone = new DateTimeZone('America/Sao_Paulo');
-$horario = new Horarios();
-$agenda = new Agendas();
-$servico_profissional = new Servico_profissional();
+date_default_timezone_set('America/Sao_Paulo');
 
-$servico = $_POST['servico'];
-$dia = $_POST['diaCorte'];
-$horariosCorte = $_POST['horarioCorte'];
+$campoModel = new Campos();
+$reservaModel = new Reservas();
 
-$tempoServico = $servico_profissional->pegarTempoServico($servico)->getTempo_servico();
+// Recebe os dados do formulário
+$id_campo = $_POST['id_campo'];
+$diaPartida = $_POST['diaPartida'];
+$horarioPartida = $_POST['horarioPartida'];
 
-$data_inicio = new DateTime($dia . ' ' . $horariosCorte, $timezone);
+$dataHoje = new DateTime('today');
+$dataSelecionada = new DateTime($diaPartida);
 
-list($hours, $minutes, $seconds) = explode(':', $tempoServico);
-$tempoServicoInterval = new DateInterval(sprintf('PT%sH%sM%sS', $hours, $minutes, $seconds));
-
-$data_fim = clone $data_inicio;
-$data_fim->add($tempoServicoInterval)->format('H:i:s');
-
-//Tem o mesmo horario marcado, na mesma hora e no mesmo dia
-$buscarHorarioExistente = $horario->buscarHorario($dia, $data_inicio->format('H:i:s'), $data_fim->format('H:i:s'), $servico_profissional->getId_prof());
-
-//Verifica se o horario inicio esta entre o horario inicio e horario fim de outra horario no mesmo dia
-$buscarHorarioQueEstaEmOutroServico = $horario->verificarHorario($dia, $data_inicio->format('H:i:s'), $servico_profissional->getId_prof());
-
-if($buscarHorarioExistente || $buscarHorarioQueEstaEmOutroServico){
-    echo <<<HTML
-        <script>
-            alert('Já existe um horário marcado esta hora!');
-            window.location.href='../view/home.php';
-        </script>
-    HTML;
-} else {
-    $horario->setHorario_fim($data_fim->format('H:i:s'));
-    $horario->setHorario_inicio($data_inicio->format('H:i:s'));
-    $horario->setDia_semana($dia);
-    
-    $agenda->setId_servico_prof($servico_profissional->getId_servico_prof());
-    $agenda->setCpf_cliente($_SESSION['cpf']);
-    
-    $horario->createHorarios();
-    $agenda->setId_horario($horario->getId_horario());
-    
-    if($agenda->createAgendas()){
-        echo <<<HTML
-        <script>
-            alert('Agendamento realizado com sucesso!');
-            window.location.href='../view/home.php';
-        </script>
-    HTML;
-    }else{
-        echo <<<HTML
-            <script>
-                alert('Erro ao realizar agendamento!');
-                window.location.href='../view/home.php';
-            </script>
-        HTML;
-    }
+if ($dataSelecionada < $dataHoje) {
+    sweetAlert('Erro', 'A data selecionada já passou. Por favor, escolha uma data válida.', 'error', '../view/home.php');
 }
 
+// Busca informações do campo
+$campo = $campoModel->getById($id_campo);
+if (!$campo) {
+    sweetAlert('Erro', 'Campo não encontrado!', 'error', '../view/home.php');
+    exit;
+}
 
-?>
+// Pegando dados do campo
+$inicio_operacao = $campo->getInicio_atendimento();
+$fim_operacao = $campo->getFim_atendimento();
+$duracao_slot = $campo->getDuracao_slot();
+$preco_slot = $campo->getPreco_slot(); // <-- novo campo no banco
+
+// Valida se o horário está dentro do horário de funcionamento
+if ($horarioPartida < $inicio_operacao || $horarioPartida > $fim_operacao) {
+    sweetAlert('Erro', 'O horário selecionado está fora do horário de operação do campo.', 'error', '../view/home.php');
+    exit;
+}
+
+// Calcula o horário final com base na duração do slot
+$inicio = new DateTime($horarioPartida);
+$horaFim = clone $inicio;
+$horaFim->modify("+{$duracao_slot} minutes");
+
+// Verifica se já existe uma reserva nesse horário
+$existeReserva = $reservaModel->verificarConflito(
+    $id_campo,
+    $diaPartida,
+    $inicio->format('H:i:s'),
+    $horaFim->format('H:i:s')
+);
+
+if ($existeReserva) {
+    sweetAlert('Erro', 'Já existe uma reserva nesse horário!', 'error', '../view/home.php');
+    exit;
+}
+
+// Obtém o ID do cliente da sessão
+$id_cliente = $_SESSION['id_cliente'] ?? null;
+if (!$id_cliente) {
+    sweetAlert('Erro', 'Você precisa estar logado para agendar.', 'error', '../view/login.html');
+    exit;
+}
+
+// 🧮 Calcula o valor total da reserva
+// Exemplo: se o slot for 60 minutos e o preço for R$100 → valor_total = 100
+// Se o slot for 120 minutos (2 horas), valor_total = 200
+$inicioCalc = new DateTime($inicio->format('H:i:s'));
+$fimCalc = new DateTime($horaFim->format('H:i:s'));
+$intervalo = $inicioCalc->diff($fimCalc);
+$horas = $intervalo->h + ($intervalo->i / 60); // inclui minutos fracionados se houver
+$valor_total = $preco_slot * $horas;
+
+// Cria a reserva
+$reservaModel->setIdCampo($id_campo);
+$reservaModel->setIdCliente($id_cliente);
+$reservaModel->setDataReserva($diaPartida);
+$reservaModel->setHoraInicio($inicio->format('H:i:s'));
+$reservaModel->setHoraFim($horaFim->format('H:i:s'));
+$reservaModel->setValorTotal($valor_total);
+$reservaModel->setStatus('confirmado');
+
+if ($reservaModel->create()) {
+    sweetAlert('Sucesso', 'Agendamento realizado com sucesso! Valor total: R$ ' . number_format($valor_total, 2, ',', '.'), 'success', '../view/home.php');
+} else {
+    sweetAlert('Erro', 'Erro ao realizar agendamento!', 'error', '../view/home.php');
+}

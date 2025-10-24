@@ -8,15 +8,6 @@ function formatCpf($cpf)
     return $cpf;
 }
 
-function formatRg($rg)
-{
-    $rg = preg_replace("/\D/", '', $rg);
-    if (preg_match('/(\d{2})(\d{3})(\d{3})(\d{1})/', $rg, $matches)) {
-        return "{$matches[1]}.{$matches[2]}.{$matches[3]}-{$matches[4]}";
-    }
-    return $rg;
-}
-
 function formatTelefone($telefone)
 {
     $telefone = preg_replace("/\D/", '', $telefone);
@@ -26,6 +17,16 @@ function formatTelefone($telefone)
         return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $telefone);
     }
     return $telefone;
+}
+
+function formatarData($data)
+{
+    return date('d/m/Y', strtotime($data));
+}
+
+function formatarHora($hora)
+{
+    return date('H:i', strtotime($hora));
 }
 ?>
 
@@ -60,10 +61,10 @@ function formatTelefone($telefone)
             <nav class="navbar navbar-expand">
                 <ul class="navbar-nav gap-4">
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold" href="../view/cadastroCampos.php">Cadastrar Campos</a>
+                        <a class="nav-link fw-semibold" href="../view/meusCampos.php">Meus Campos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold" href="../view/servicosAdm.php">Campos</a>
+                        <a class="nav-link fw-semibold" href="../view/cadastroCampos.php">Cadastrar Campos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fw-semibold" href="../view/login.html">Sair</a>
@@ -75,52 +76,54 @@ function formatTelefone($telefone)
 
     <!-- Conteúdo -->
     <main class="container py-5">
-        <h2 class="tituloHome fw-bold text-center mb-5">Proprietários Cadastrados</h2>
+        <h2 class="tituloHome fw-bold text-center mb-5">Horários Marcados</h2>
 
         <?php
-        require_once '../model/Proprietarios.php';
+        session_start();
+        require_once '../model/Reservas.php';
 
-        $proprietario = new Proprietarios();
-        $proprietarios = $proprietario->readAll();
+        if (!isset($_SESSION['id_cliente'])) {
+            header('Location: login.html');
+            exit;
+        }
+
+        $reservasModel = new Reservas();
+        $id_cliente = $_SESSION['id_cliente'];
+        $reservas = $reservasModel->getReservasByProprietario($id_cliente);
         ?>
 
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-4">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-primary">
-                            <tr>
-                                <th class="text-center">Proprietário</th>
-                                <th class="text-center">CPF</th>
-                                <th class="text-center">RG</th>
-                                <th class="text-center">Telefone</th>
-                                <th class="text-center">E-mail</th>
-                                <th class="text-center">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($proprietarios as $index => $proprietario) : ?>
+                <?php if (count($reservas) === 0): ?>
+                    <div class="alert alert-warning text-center m-0">Nenhuma reserva encontrada para seus campos.</div>
+                <?php else: ?>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle text-center">
+                            <thead class="table-primary">
                                 <tr>
-                                    <td class="text-center"><?php echo $proprietario->getNome(); ?></td>
-                                    <td class="text-center"><?php echo formatCpf($proprietario->getCpf()); ?></td>
-                                    <td class="text-center"><?php echo formatRg($proprietario->getRg()); ?></td>
-                                    <td class="text-center"><?php echo formatTelefone($proprietario->getTelefone()); ?></td>
-                                    <td class="text-center"><?php echo $proprietario->getEmail(); ?></td>
-                                    <td class="text-center">
-                                        <button onclick="editarProprietario(<?php echo $proprietario->getId_prof(); ?>)"
-                                            type="button" class="btn btn-primary btn-sm px-3 rounded-3">
-                                            Editar
-                                        </button>
-                                        <button onclick="excluirProprietario(<?php echo $proprietario->getId_prof(); ?>)"
-                                            type="button" class="btn btn-outline-danger btn-sm px-3 rounded-3">
-                                            Excluir
-                                        </button>
-                                    </td>
+                                    <th>Campo</th>
+                                    <th>Cliente</th>
+                                    <th>Data</th>
+                                    <th>Início</th>
+                                    <th>Fim</th>
+                                    <th>Valor</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reservas as $r): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($r['nome_campo']) ?></td>
+                                        <td><?= htmlspecialchars($r['nome_cliente']) ?></td>
+                                        <td><?= formatarData($r['data_reserva']) ?></td>
+                                        <td><?= formatarHora($r['hora_inicio']) ?></td>
+                                        <td><?= formatarHora($r['hora_fim']) ?></td>
+                                        <td>R$ <?= number_format($r['valor_total'], 2, ',', '.') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </main>
