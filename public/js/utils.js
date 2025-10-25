@@ -10,27 +10,26 @@ $(document).ready(function () {
   $("#telefone").mask("(00) 90000-0000");
 });
 
-function formatCpf($cpf) {
-    // Remove tudo que não é número
-    $cpf = preg_replace("/\D/", '', $cpf);
-    // Formata: 000.000.000-00
-    return preg_match('/(\d{3})(\d{3})(\d{3})(\d{2})/', $cpf, $matches) ? "{$matches[1]}.{$matches[2]}.{$matches[3]}-{$matches[4]}" : $cpf;
+function formatCpf(cpf) {
+  // Remove tudo que não é número
+  cpf = cpf.replace(/\D/g, "");
+  // Formata: 000.000.000-00
+  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
 
-function formatRg($rg) {
-    $rg = preg_replace("/\D/", '', $rg);
-    // Formato comum: 00.000.000-0
-    return preg_match('/(\d{2})(\d{3})(\d{3})(\d{1})/', $rg, $matches) ? "{$matches[1]}.{$matches[2]}.{$matches[3]}-{$matches[4]}" : $rg;
+function formatRg(rg) {
+  rg = rg.replace(/\D/g, "");
+  // Formato comum: 00.000.000-0
+  return rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
 }
 
-function formatTelefone($telefone) {
-    $telefone = preg_replace("/\D/", '', $telefone);
-    // Celular ou fixo
-    if (strlen($telefone) === 11) {
-        return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $telefone);
-    } elseif (strlen($telefone) === 10) {
-        return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $telefone);
-    } else {
-        return $telefone;
-    }
+function formatTelefone(telefone) {
+  telefone = telefone.replace(/\D/g, "");
+  if (telefone.length === 11) {
+    return telefone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+  } else if (telefone.length === 10) {
+    return telefone.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+  } else {
+    return telefone;
+  }
 }

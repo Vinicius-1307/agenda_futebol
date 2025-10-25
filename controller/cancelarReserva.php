@@ -1,6 +1,5 @@
 <?php
 require_once '../model/Database.php';
-include_once('../utils/alert.php');
 
 $banco = new BancoAgendaFutebol();
 $conn = $banco->getConexao();

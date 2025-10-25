@@ -1,92 +1,36 @@
-<?php
-include_once '../model/Reservas.php';
-include_once '../model/Campos.php';
-include_once '../model/Clientes.php';
-include_once('../utils/alert.php');
+// Máscaras de formulário
+$(document).ready(function () {
+  // Máscara de CPF: 000.000.000-00
+  $("#cpf").mask("000.000.000-00");
 
-session_start();
+  // Máscara de RG: 00.000.000-0 (formato mais comum)
+  $("#rg").mask("00.000.000-0");
 
-date_default_timezone_set('America/Sao_Paulo');
+  // Máscara de telefone
+  $("#telefone").mask("(00) 90000-0000");
+});
 
-$campoModel = new Campos();
-$reservaModel = new Reservas();
-
-// Recebe os dados do formulário
-$id_campo = $_POST['id_campo'];
-$diaPartida = $_POST['diaPartida'];
-$horarioPartida = $_POST['horarioPartida'];
-
-$dataHoje = new DateTime('today');
-$dataSelecionada = new DateTime($diaPartida);
-
-if ($dataSelecionada < $dataHoje) {
-    sweetAlert('Erro', 'A data selecionada já passou. Por favor, escolha uma data válida.', 'error', '../view/home.php');
+function formatCpf($cpf) {
+    // Remove tudo que não é número
+    $cpf = preg_replace("/\D/", '', $cpf);
+    // Formata: 000.000.000-00
+    return preg_match('/(\d{3})(\d{3})(\d{3})(\d{2})/', $cpf, $matches) ? "{$matches[1]}.{$matches[2]}.{$matches[3]}-{$matches[4]}" : $cpf;
 }
 
-// Busca informações do campo
-$campo = $campoModel->getById($id_campo);
-if (!$campo) {
-    sweetAlert('Erro', 'Campo não encontrado!', 'error', '../view/home.php');
-    exit;
+function formatRg($rg) {
+    $rg = preg_replace("/\D/", '', $rg);
+    // Formato comum: 00.000.000-0
+    return preg_match('/(\d{2})(\d{3})(\d{3})(\d{1})/', $rg, $matches) ? "{$matches[1]}.{$matches[2]}.{$matches[3]}-{$matches[4]}" : $rg;
 }
 
-// Pegando dados do campo
-$inicio_operacao = $campo->getInicio_atendimento();
-$fim_operacao = $campo->getFim_atendimento();
-$duracao_slot = $campo->getDuracao_slot();
-$preco_slot = $campo->getPreco_slot(); // <-- novo campo no banco
-
-// Valida se o horário está dentro do horário de funcionamento
-if ($horarioPartida < $inicio_operacao || $horarioPartida > $fim_operacao) {
-    sweetAlert('Erro', 'O horário selecionado está fora do horário de operação do campo.', 'error', '../view/home.php');
-    exit;
-}
-
-// Calcula o horário final com base na duração do slot
-$inicio = new DateTime($horarioPartida);
-$horaFim = clone $inicio;
-$horaFim->modify("+{$duracao_slot} minutes");
-
-// Verifica se já existe uma reserva nesse horário
-$existeReserva = $reservaModel->verificarConflito(
-    $id_campo,
-    $diaPartida,
-    $inicio->format('H:i:s'),
-    $horaFim->format('H:i:s')
-);
-
-if ($existeReserva) {
-    sweetAlert('Erro', 'Já existe uma reserva nesse horário!', 'error', '../view/home.php');
-    exit;
-}
-
-// Obtém o ID do cliente da sessão
-$id_cliente = $_SESSION['id_cliente'] ?? null;
-if (!$id_cliente) {
-    sweetAlert('Erro', 'Você precisa estar logado para agendar.', 'error', '../view/login.html');
-    exit;
-}
-
-// 🧮 Calcula o valor total da reserva
-// Exemplo: se o slot for 60 minutos e o preço for R$100 → valor_total = 100
-// Se o slot for 120 minutos (2 horas), valor_total = 200
-$inicioCalc = new DateTime($inicio->format('H:i:s'));
-$fimCalc = new DateTime($horaFim->format('H:i:s'));
-$intervalo = $inicioCalc->diff($fimCalc);
-$horas = $intervalo->h + ($intervalo->i / 60); // inclui minutos fracionados se houver
-$valor_total = $preco_slot * $horas;
-
-// Cria a reserva
-$reservaModel->setIdCampo($id_campo);
-$reservaModel->setIdCliente($id_cliente);
-$reservaModel->setDataReserva($diaPartida);
-$reservaModel->setHoraInicio($inicio->format('H:i:s'));
-$reservaModel->setHoraFim($horaFim->format('H:i:s'));
-$reservaModel->setValorTotal($valor_total);
-$reservaModel->setStatus('confirmado');
-
-if ($reservaModel->create()) {
-    sweetAlert('Sucesso', 'Agendamento realizado com sucesso! Valor total: R$ ' . number_format($valor_total, 2, ',', '.'), 'success', '../view/home.php');
-} else {
-    sweetAlert('Erro', 'Erro ao realizar agendamento!', 'error', '../view/home.php');
+function formatTelefone($telefone) {
+    $telefone = preg_replace("/\D/", '', $telefone);
+    // Celular ou fixo
+    if (strlen($telefone) === 11) {
+        return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $telefone);
+    } elseif (strlen($telefone) === 10) {
+        return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $telefone);
+    } else {
+        return $telefone;
+    }
 }

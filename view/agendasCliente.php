@@ -12,7 +12,7 @@
 
     <!-- jQuery e JS custom -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../public/js/cancelarReserva.js"></script>
+    <script src="/agenda_futebol/public/js/cancelarReserva.js"></script>
 
     <!-- CSS custom -->
     <link rel="stylesheet" href="../public/css/style.css">
