@@ -90,12 +90,25 @@ class Campos
     public function createCampo()
     {
         $stmt = $this->banco->getConexao()->prepare("
-        INSERT INTO campos (nome, inicio_operacao, fim_operacao, duracao_slot, id_cliente, preco_slot)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO campos (nome, inicio_operacao, fim_operacao, id_cliente, preco_slot)
+        VALUES (?, ?, ?, ?, ?)
     ");
-        $stmt->bind_param("sssiii", $this->nome, $this->inicio_operacao, $this->fim_operacao, $this->duracao_slot, $this->id_cliente, $this->preco_slot);
+        $stmt->bind_param("sssii", $this->nome, $this->inicio_operacao, $this->fim_operacao, $this->id_cliente, $this->preco_slot);
         return $stmt->execute();
     }
+
+    public function campoExiste()
+    {
+        $stmt = $this->banco->getConexao()->prepare("
+        SELECT id_campo FROM campos 
+        WHERE nome = ? AND id_cliente = ?
+    ");
+        $stmt->bind_param("si", $this->nome, $this->id_cliente);
+        $stmt->execute();
+        $stmt->store_result();
+        return $stmt->num_rows > 0;
+    }
+
 
     public function getById($id)
     {

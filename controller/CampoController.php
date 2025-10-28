@@ -11,7 +11,6 @@ $cliente = new Clientes();
 $nome = $_POST['nome'];
 $inicio_operacao = $_POST['inicio_operacao'];
 $fim_operacao = $_POST['fim_operacao'];
-$duracao_slot = $_POST['duracao_slot'];
 $id_cliente = $_SESSION['id_cliente'];
 $preco_slot = $_POST['preco_slot'];
 
@@ -22,15 +21,19 @@ $campo = new Campos();
 $campo->setNome($nome);
 $campo->setInicio_operacao($inicio_operacao);
 $campo->setFim_operacao($fim_operacao);
-$campo->setDuracao_slot($duracao_slot);
 $campo->setPreco_slot($preco_slot);
 $campo->setId_cliente($id_cliente);
+
+if ($campo->campoExiste()) {
+    sweetAlert('Erro', 'Já existe um campo com esse nome para este cliente!', 'error', '/agenda_futebol/view/cadastroCampos.php');
+    exit;
+}
 
 // Salva o campo no banco
 if ($campo->createCampo()) {
     $id_campo = $campo->getId_campo();
 
-    sweetAlert('Sucesso', 'Campo cadastrado com sucesso!', 'success', '../view/administrador.php');
+    sweetAlert('Sucesso', 'Campo cadastrado com sucesso!', 'success', '/agenda_futebol/view/administrador.php');
 } else {
-    sweetAlert('Erro', 'Erro ao cadastrar o campo!', 'error', '../view/cadastroCampo.php');
+    sweetAlert('Erro', 'Erro ao cadastrar o campo!', 'error', '/agenda_futebol/view/cadastroCampos.php');
 }

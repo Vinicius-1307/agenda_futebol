@@ -81,9 +81,27 @@
 
                                     <label for="diaPartida">Agende o dia:</label>
                                     <input class="form-control mb-3" id="diaPartida" name="diaPartida" placeholder="Dia da partida" type="date">
-                                    <label for="horarioPartida">Agende seu horário entre (<?php echo $inicioAtendimento; ?> e <?php echo $fimAtendimento; ?>):</label>
-                                    <input class="form-control mb-3" min='<?php echo $inicioAtendimento; ?>' max='<?php echo $fimAtendimento; ?>' id="horarioPartida" name="horarioPartida" placeholder="Horário da partida" type="time">
+
+                                    <label for="horarioInicioPartida">Horário de início (<?php echo $inicioAtendimento; ?> e <?php echo $fimAtendimento; ?>):</label>
+                                    <input class="form-control mb-3"
+                                        min="<?php echo $inicioAtendimento; ?>"
+                                        max="<?php echo $fimAtendimento; ?>"
+                                        step="1800"
+                                        id="horarioInicioPartida"
+                                        name="horarioInicioPartida"
+                                        placeholder="Horário da partida"
+                                        type="time">
+                                    <label for="horarioFinalPartida">Horário final:</label>
+                                    <input class="form-control mb-3"
+                                        min="<?php echo $inicioAtendimento; ?>"
+                                        max="<?php echo $fimAtendimento; ?>"
+                                        step="1800"
+                                        id="horarioFinalPartida"
+                                        name="horarioFinalPartida"
+                                        placeholder="Horário da partida"
+                                        type="time">
                                 </div>
+
                                 <div class="modal-footer border-0">
                                     <button type="submit" class="btn btn-primary px-4">Agendar</button>
                                 </div>
@@ -99,6 +117,43 @@
     <footer class="footer mt-auto">
         © 2025 FutAgenda - Todos os direitos reservados
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona todos os campos de horário (início e fim)
+            document.querySelectorAll('input[type="time"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    const valor = this.value;
+
+                    if (!valor) return;
+
+                    const [hora, minuto] = valor.split(':').map(Number);
+
+                    // Se não for :00 ou :30 → corrige automaticamente
+                    if (minuto !== 0 && minuto !== 30) {
+                        // Arredonda para o mais próximo
+                        let minutosAjustados = (minuto < 15) ? 0 : (minuto < 45 ? 30 : 0);
+                        let horaAjustada = (minuto >= 45) ? (hora + 1) % 24 : hora;
+
+                        const horarioAjustado =
+                            `${horaAjustada.toString().padStart(2, '0')}:${minutosAjustados.toString().padStart(2, '0')}`;
+
+                        // Mostra alerta amigável
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Horário ajustado',
+                            html: `Somente horários cheios ou de meia hora são permitidos.<br>
+                           O horário foi ajustado automaticamente para <b>${horarioAjustado}</b>.`,
+                            confirmButtonColor: '#0d6efd'
+                        });
+
+                        // Atualiza o valor do campo
+                        this.value = horarioAjustado;
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

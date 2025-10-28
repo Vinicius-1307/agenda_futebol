@@ -67,7 +67,6 @@ $campos = $camposModel->getCamposByProprietario($id_cliente);
                             <th>Nome</th>
                             <th>Início Operação</th>
                             <th>Fim Operação</th>
-                            <th>Duração (min)</th>
                             <th>Preço (R$)</th>
                             <th>Ações</th>
                         </tr>
@@ -76,10 +75,9 @@ $campos = $camposModel->getCamposByProprietario($id_cliente);
                         <?php foreach ($campos as $campo): ?>
                             <tr>
                                 <td><?= htmlspecialchars($campo['nome']) ?></td>
-                                <td><?= htmlspecialchars($campo['inicio_operacao']) ?></td>
-                                <td><?= htmlspecialchars($campo['fim_operacao']) ?></td>
-                                <td><?= htmlspecialchars($campo['duracao_slot']) ?></td>
-                                <td><?= number_format($campo['preco_slot'], 2, ',', '.') ?></td>
+                                <td><?= date('H:i', strtotime($campo['inicio_operacao'])) ?></td>
+                                <td><?= date('H:i', strtotime($campo['fim_operacao'])) ?></td>
+                                <td>R$<?= number_format($campo['preco_slot'], 2, ',', '.') ?></td>
                                 <td class="text-center">
                                     <a href="../controller/deletarCampo.php?id=<?= $campo['id_campo'] ?>"
                                         class="btn btn-outline-danger btn-sm px-3 rounded-3"

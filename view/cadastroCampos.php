@@ -66,13 +66,6 @@
                     <input type="time" class="form-control" id="fim_operacao" name="fim_operacao" required step="3600">
                 </div>
 
-                <!-- Duração do slot -->
-                <div class="col-md-4">
-                    <label for="duracao_slot" class="form-label">Duração do jogo (minutos):</label>
-                    <input type="number" class="form-control" id="duracao_slot" name="duracao_slot"
-                        required min="10" step="5" placeholder="Ex: 60">
-                </div>
-
                 <!-- Preço do jogo -->
                 <div class="col-md-4">
                     <label for="preco_slot" class="form-label">Preço por jogo (R$):</label>

@@ -1,7 +1,26 @@
 <?php
+session_start();
+require_once '../model/Reservas.php';
+require_once '../utils/alert.php'; // se quiser usar sweetAlert
+
+// 🔒 Verifica se o usuário está logado
+if (!isset($_SESSION['id_cliente'])) {
+    sweetAlert('Acesso negado', 'Você precisa fazer login para acessar esta página.', 'error', '../view/login.html');
+    exit;
+}
+
+// 🔒 Verifica se o usuário é administrador
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
+    sweetAlert('Acesso restrito', 'Apenas administradores podem acessar esta página.', 'warning', '../view/home.php');
+    exit;
+}
+
+// =====================
+// Funções auxiliares
+// =====================
 function formatCpf($cpf)
 {
-    $cpf = preg_replace("/\D/", '', $cpf); // Remove tudo que não é número
+    $cpf = preg_replace("/\D/", '', $cpf);
     if (preg_match('/(\d{3})(\d{3})(\d{3})(\d{2})/', $cpf, $matches)) {
         return "{$matches[1]}.{$matches[2]}.{$matches[3]}-{$matches[4]}";
     }
@@ -28,6 +47,13 @@ function formatarHora($hora)
 {
     return date('H:i', strtotime($hora));
 }
+
+// =====================
+// Busca de reservas
+// =====================
+$reservasModel = new Reservas();
+$id_cliente = $_SESSION['id_cliente'];
+$reservas = $reservasModel->getReservasByProprietario($id_cliente);
 ?>
 
 <!DOCTYPE html>
@@ -77,20 +103,6 @@ function formatarHora($hora)
     <!-- Conteúdo -->
     <main class="container py-5">
         <h2 class="tituloHome fw-bold text-center mb-5">Horários Marcados</h2>
-
-        <?php
-        session_start();
-        require_once '../model/Reservas.php';
-
-        if (!isset($_SESSION['id_cliente'])) {
-            header('Location: login.html');
-            exit;
-        }
-
-        $reservasModel = new Reservas();
-        $id_cliente = $_SESSION['id_cliente'];
-        $reservas = $reservasModel->getReservasByProprietario($id_cliente);
-        ?>
 
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-4">

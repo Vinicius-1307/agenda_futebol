@@ -16,7 +16,6 @@ CREATE TABLE campos (
     nome VARCHAR(45) NOT NULL,
     inicio_operacao TIME NOT NULL,
     fim_operacao TIME NOT NULL,
-    duracao_slot INT NOT NULL,
     id_cliente INT NOT NULL,
     preco_slot DECIMAL(10,2) NOT NULL
 ) ENGINE=InnoDB;
