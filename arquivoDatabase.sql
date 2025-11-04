@@ -14,6 +14,8 @@ CREATE TABLE clientes (
 CREATE TABLE campos (
     id_campo INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nome VARCHAR(45) NOT NULL,
+    descricao TEXT NULL,
+    imagem VARCHAR(255) NULL,
     inicio_operacao TIME NOT NULL,
     fim_operacao TIME NOT NULL,
     id_cliente INT NOT NULL,

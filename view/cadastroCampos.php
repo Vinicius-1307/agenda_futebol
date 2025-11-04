@@ -48,20 +48,34 @@
         <form action="../controller/CampoController.php" method="POST" enctype="multipart/form-data" id="formCampo" class="mx-auto" style="max-width: 800px;">
             <div class="row g-3 justify-content-center">
                 <!-- Nome do campo -->
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label for="nome" class="form-label">Nome do campo:</label>
                     <input type="text" class="form-control" id="nome" name="nome" required
                         placeholder="Ex: Campo Society A">
                 </div>
 
+                <!-- Descrição -->
+                <div class="col-md-12">
+                    <label for="descricao" class="form-label">Descrição:</label>
+                    <textarea class="form-control" id="descricao" name="descricao" rows="3"
+                        placeholder="Ex: Campo gramado com iluminação, vestiários, estacionamento..."></textarea>
+                </div>
+
+                <!-- Imagem -->
+                <div class="col-md-12">
+                    <label for="imagem" class="form-label">Imagem do campo:</label>
+                    <input type="file" class="form-control" id="imagem" name="imagem" accept="image/*">
+                    <small class="text-muted">Formatos aceitos: JPG, PNG, GIF, WEBP</small>
+                </div>
+
                 <!-- Início operação -->
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="inicio_operacao" class="form-label">Início de operação:</label>
                     <input type="time" class="form-control" id="inicio_operacao" name="inicio_operacao" required step="3600">
                 </div>
 
                 <!-- Fim operação -->
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label for="fim_operacao" class="form-label">Fim de operação:</label>
                     <input type="time" class="form-control" id="fim_operacao" name="fim_operacao" required step="3600">
                 </div>
@@ -73,7 +87,10 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-between mt-4">
+                <a href="../view/meusCampos.php" class="btn btn-secondary rounded-3 px-4">
+                    Cancelar
+                </a>
                 <button type="submit" class="btn btn-primary rounded-3 px-4">
                     Salvar
                 </button>

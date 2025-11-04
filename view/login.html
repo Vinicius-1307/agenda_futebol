@@ -12,44 +12,214 @@
 
     <!-- CSS custom -->
     <link rel="stylesheet" href="/agenda_futebol/public/css/style.css">
+
+    <style>
+        body {
+            background-image: url('/agenda_futebol/public/images/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Overlay para melhor contraste */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.25);
+            pointer-events: none;
+        }
+
+        /* Navbar azul */
+        .navbar-custom {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            padding: 2rem 0;
+            border-radius: 40px;
+            margin: 1.5rem auto;
+            min-width: 60%;
+            max-width: 98%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-custom .nav-link {
+            color: white !important;
+            font-size: 1.4rem;
+            font-weight: 500;
+            padding: 0.8rem 2rem;
+            transition: all 0.3s;
+        }
+
+        .navbar-custom .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .navbar-custom .nav-link.active {
+            border-bottom: 3px solid white;
+        }
+
+        /* Card de login */
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 30px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+        }
+
+        .login-title {
+            color: #1976d2;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-control-custom {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control-custom:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+
+        .btn-entrar {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.4);
+        }
+
+        .btn-entrar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5);
+        }
+
+        .btn-cadastro {
+            background: transparent;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+            border-radius: 15px;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-cadastro:hover {
+            background: #2e7d32;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .soccer-ball {
+                display: none;
+            }
+
+            .login-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        footer {
+            background: rgba(13, 71, 24, 0.8);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <header class="fundoNav shadow-sm">
-        <div class="container d-flex justify-content-between align-items-center h-100">
-            <div class="d-flex align-items-center gap-3">
-                <img src="/agenda_futebol/public/images/FutAgenda.png" width="80" height="80" alt="Logo FutAgenda"
-                    class="rounded-circle bg-white p-1">
+    <nav class="navbar navbar-expand navbar-custom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Logo à esquerda -->
+            <div class="navbar-logo d-flex align-items-center">
+                <img src="/agenda_futebol/public/images/FutAgenda.png" width="60" height="60" alt="Logo FutAgenda"
+                    class="rounded-circle bg-white p-1 me-4">
             </div>
+
+            <!-- Itens de navegação centralizados -->
+            <ul class="navbar-nav mx-auto d-flex justify-content-center align-items-center gap-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/agenda_futebol/view/login.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agenda_futebol/view/sobre.html">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agenda_futebol/view/servicos.html">Serviços</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agenda_futebol/view/contato.html">Contato</a>
+                </li>
+            </ul>
+
+            <!-- Espaço à direita (opcional) -->
+            <div class="navbar-right"></div>
         </div>
-    </header>
+    </nav>
 
     <!-- Login Form -->
-    <main class="main-content d-flex justify-content-center align-items-center">
-        <div class="card shadow-lg border-0 p-4 formulario rounded-4">
-            <h2 class="tituloHome fw-bold mb-4">Login</h2>
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">Login</h2>
             <form action="/agenda_futebol/controller/login.php" method="POST">
-                <div class="mb-3">
-                    <label for="email" class="form-label fw-semibold">E-mail</label>
-                    <input type="email" required class="form-control form-control-lg" id="email"
-                        placeholder="Digite seu e-mail" name="email">
+                <div class="mb-4">
+                    <input type="email" required class="form-control form-control-custom" id="email"
+                        placeholder="E-mail" name="email">
                 </div>
-                <div class="mb-3">
-                    <label for="senha" class="form-label fw-semibold">Senha</label>
-                    <input type="password" required class="form-control form-control-lg" id="senha"
-                        placeholder="Digite sua senha" name="senha">
+                <div class="mb-4">
+                    <input type="password" required class="form-control form-control-custom" id="senha"
+                        placeholder="Senha" name="senha">
                 </div>
-                <div class="d-flex align-items-center mt-4 gap-4">
-                    <a href="/agenda_futebol/view/cadastroUsuario.html" class="btn btn-outline-success btn-lg px-4">Cadastre-se</a>
-                    <button type="submit" class="btn btn-primary btn-lg px-4">Entrar</button>
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-entrar flex-fill">Entrar</button>
+                    <a href="/agenda_futebol/view/cadastroUsuario.html"
+                        class="btn btn-cadastro flex-fill">Cadastre-se</a>
                 </div>
             </form>
         </div>
-    </main>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer mt-auto">
+    <footer>
         © 2025 FutAgenda - Todos os direitos reservados
     </footer>
 </body>

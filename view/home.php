@@ -54,9 +54,29 @@
             ?>
                 <div class="col-md-6 col-lg-4">
                     <div class="card shadow-sm border-0 rounded-4 h-100 hover-card">
+                        <?php if ($campo->getImagem()): ?>
+                            <img src="../public/images/<?php echo htmlspecialchars($campo->getImagem()); ?>" 
+                                 class="card-img-top rounded-top-4" 
+                                 alt="<?php echo htmlspecialchars($campo->getNome()); ?>"
+                                 style="height: 200px; object-fit: cover;">
+                        <?php else: ?>
+                            <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center rounded-top-4" 
+                                 style="height: 200px;">
+                                <div class="text-center text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-image mb-2" viewBox="0 0 16 16">
+                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+                                    </svg>
+                                    <p class="mb-0 small">Sem imagem</p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                         <div class="card-body text-center">
-                            <h4 class="card-title fw-bold text-primary"><?php echo $campo->getNome(); ?></h4>
-                            <p class="text-muted mb-1">📞 <?php echo $campo->getTelefone(); ?></p>
+                            <h4 class="card-title fw-bold text-primary"><?php echo htmlspecialchars($campo->getNome()); ?></h4>
+                            <?php if ($campo->getDescricao()): ?>
+                                <p class="text-muted small mb-2"><?php echo htmlspecialchars(substr($campo->getDescricao(), 0, 80)) . (strlen($campo->getDescricao()) > 80 ? '...' : ''); ?></p>
+                            <?php endif; ?>
+                            <p class="text-muted mb-1">📞 <?php echo htmlspecialchars($campo->getTelefone()); ?></p>
                             <a href="#" class="btn btn-primary d-block mt-3 rounded-3"
                                 data-bs-toggle="modal" data-bs-target="#<?php echo $campo->getId_campo(); ?>">Agendar</a>
                         </div>
@@ -68,7 +88,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-4 shadow">
                             <div class="modal-header border-0">
-                                <h5 class="modal-title fw-bold text-primary">Agende com <?php echo $campo->getNome(); ?></h5>
+                                <h5 class="modal-title fw-bold text-primary">Agende com <?php echo htmlspecialchars($campo->getNome()); ?></h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <form action="/agenda_futebol/controller/agendamento.php" method="POST">
@@ -77,6 +97,13 @@
                                 $fimAtendimento = $campo->getFim_atendimento();
                                 ?>
                                 <div class="modal-body">
+                                    <?php if ($campo->getDescricao()): ?>
+                                        <div class="alert alert-info mb-3">
+                                            <strong>📝 Sobre o campo:</strong><br>
+                                            <?php echo nl2br(htmlspecialchars($campo->getDescricao())); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    
                                     <input type="hidden" name="id_campo" value="<?php echo $campo->getId_campo(); ?>">
 
                                     <label for="diaPartida">Agende o dia:</label>

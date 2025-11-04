@@ -79,6 +79,10 @@ $campos = $camposModel->getCamposByProprietario($id_cliente);
                                 <td><?= date('H:i', strtotime($campo['fim_operacao'])) ?></td>
                                 <td>R$<?= number_format($campo['preco_slot'], 2, ',', '.') ?></td>
                                 <td class="text-center">
+                                    <a href="../view/editarCampo.php?id=<?= $campo['id_campo'] ?>"
+                                        class="btn btn-outline-primary btn-sm px-3 rounded-3 me-2">
+                                        Editar
+                                    </a>
                                     <a href="../controller/deletarCampo.php?id=<?= $campo['id_campo'] ?>"
                                         class="btn btn-outline-danger btn-sm px-3 rounded-3"
                                         onclick="return confirm('Tem certeza que deseja excluir este campo?');">

@@ -5,6 +5,8 @@ class Campos
 {
     private $id_campo;
     private $nome;
+    private $descricao;
+    private $imagem;
     private $inicio_operacao;
     private $fim_operacao;
     private $duracao_slot;
@@ -35,6 +37,26 @@ class Campos
     public function getNome()
     {
         return $this->nome;
+    }
+
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
+    }
+
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+
+    public function setImagem($imagem)
+    {
+        $this->imagem = $imagem;
+    }
+
+    public function getImagem()
+    {
+        return $this->imagem;
     }
 
     public function setInicio_operacao($inicio)
@@ -90,10 +112,10 @@ class Campos
     public function createCampo()
     {
         $stmt = $this->banco->getConexao()->prepare("
-        INSERT INTO campos (nome, inicio_operacao, fim_operacao, id_cliente, preco_slot)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO campos (nome, descricao, imagem, inicio_operacao, fim_operacao, id_cliente, preco_slot)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
-        $stmt->bind_param("sssii", $this->nome, $this->inicio_operacao, $this->fim_operacao, $this->id_cliente, $this->preco_slot);
+        $stmt->bind_param("sssssii", $this->nome, $this->descricao, $this->imagem, $this->inicio_operacao, $this->fim_operacao, $this->id_cliente, $this->preco_slot);
         return $stmt->execute();
     }
 
@@ -121,6 +143,8 @@ class Campos
             $campo = new Campos();
             $campo->setId_campo($linha->id_campo);
             $campo->setNome($linha->nome);
+            $campo->setDescricao($linha->descricao);
+            $campo->setImagem($linha->imagem);
             $campo->setInicio_operacao($linha->inicio_operacao);
             $campo->setFim_operacao($linha->fim_operacao);
             $campo->setDuracao_slot($linha->duracao_slot);
@@ -143,6 +167,8 @@ class Campos
             $vetorCampos[$i] = new Campos();
             $vetorCampos[$i]->setId_campo($linha->id_campo);
             $vetorCampos[$i]->setNome($linha->nome);
+            $vetorCampos[$i]->setDescricao($linha->descricao);
+            $vetorCampos[$i]->setImagem($linha->imagem);
             $vetorCampos[$i]->setInicio_operacao($linha->inicio_operacao);
             $vetorCampos[$i]->setFim_operacao($linha->fim_operacao);
             $vetorCampos[$i]->setDuracao_slot($linha->duracao_slot);
@@ -240,7 +266,7 @@ class Campos
     public function getCamposByProprietario($id_cliente)
     {
         $stmt = $this->banco->getConexao()->prepare("
-        SELECT id_campo, nome, inicio_operacao, fim_operacao, duracao_slot, preco_slot
+        SELECT id_campo, nome, descricao, imagem, inicio_operacao, fim_operacao, duracao_slot, preco_slot
         FROM campos
         WHERE id_cliente = ?
         ORDER BY nome ASC
@@ -255,6 +281,17 @@ class Campos
         }
 
         return $campos;
+    }
+
+    public function updateCampo()
+    {
+        $stmt = $this->banco->getConexao()->prepare("
+        UPDATE campos 
+        SET nome = ?, descricao = ?, imagem = ?, inicio_operacao = ?, fim_operacao = ?, preco_slot = ?
+        WHERE id_campo = ? AND id_cliente = ?
+    ");
+        $stmt->bind_param("sssssiis", $this->nome, $this->descricao, $this->imagem, $this->inicio_operacao, $this->fim_operacao, $this->preco_slot, $this->id_campo, $this->id_cliente);
+        return $stmt->execute();
     }
 
     public function deleteCampo($id_campo)
